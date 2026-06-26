@@ -43,3 +43,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local tooling
+.claude/
+
+# Scratch / generated analysis artifacts (not source of truth)
+analysis_output.txt
+final_analysis.txt
+existing_widgets.txt
+sampled_names.txt
+unsampled_candidates.txt
+*.scratch.txt

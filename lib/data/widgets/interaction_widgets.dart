@@ -723,12 +723,21 @@ class _KeyboardListenerSample extends StatefulWidget {
 
 class _KeyboardListenerSampleState extends State<_KeyboardListenerSample> {
   String _lastEvent = 'None';
-  final FocusNode _focusNode = FocusNode();
+  // A FocusNode attaches to a single widget, so use one each.
+  final FocusNode _listenerFocusNode = FocusNode();
+  final FocusNode _fieldFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _listenerFocusNode.dispose();
+    _fieldFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
-      focusNode: _focusNode,
+      focusNode: _listenerFocusNode,
       onKeyEvent: (KeyEvent event) {
         setState(() {
           _lastEvent = '\${event.runtimeType}\\nLogical: \${event.logicalKey.keyLabel}';
@@ -737,7 +746,7 @@ class _KeyboardListenerSampleState extends State<_KeyboardListenerSample> {
       child: Column(
         children: [
           const Text('Focus the field below and press keys:'),
-          TextField(focusNode: _focusNode),
+          TextField(focusNode: _fieldFocusNode),
           const SizedBox(height: 10),
           Text('Last Event: \$_lastEvent'),
         ],
@@ -1286,12 +1295,22 @@ class _KeyboardListenerSample extends StatefulWidget {
 
 class _KeyboardListenerSampleState extends State<_KeyboardListenerSample> {
   String _lastEvent = 'None';
-  final FocusNode _focusNode = FocusNode();
+  // A FocusNode can only be attached to one widget at a time, so the
+  // KeyboardListener and the TextField each need their own.
+  final FocusNode _listenerFocusNode = FocusNode();
+  final FocusNode _fieldFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _listenerFocusNode.dispose();
+    _fieldFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return KeyboardListener(
-      focusNode: _focusNode,
+      focusNode: _listenerFocusNode,
       onKeyEvent: (KeyEvent event) {
         setState(() {
           _lastEvent =
@@ -1301,7 +1320,7 @@ class _KeyboardListenerSampleState extends State<_KeyboardListenerSample> {
       child: Column(
         children: [
           const Text('Focus the field below and press keys:'),
-          TextField(focusNode: _focusNode),
+          TextField(focusNode: _fieldFocusNode),
           const SizedBox(height: 10),
           Text('Last Event: $_lastEvent'),
         ],

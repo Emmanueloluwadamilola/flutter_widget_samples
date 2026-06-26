@@ -1521,11 +1521,10 @@ class _ReorderableListViewSampleState
           for (int index = 0; index < _items.length; index += 1)
             ListTile(key: Key('$index'), title: Text('Item ${_items[index]}')),
         ],
-        onReorder: (int oldIndex, int newIndex) {
+        // onReorderItem already supplies the adjusted destination index, so no
+        // manual `newIndex -= 1` correction is needed.
+        onReorderItem: (int oldIndex, int newIndex) {
           setState(() {
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
             final int item = _items.removeAt(oldIndex);
             _items.insert(newIndex, item);
           });

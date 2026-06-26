@@ -2150,7 +2150,7 @@ class _SizeTransitionSampleState extends State<_SizeTransitionSample>
     return SizeTransition(
       sizeFactor: _animation,
       axis: Axis.horizontal,
-      axisAlignment: -1,
+      alignment: Alignment.centerLeft,
       child: const Center(child: FlutterLogo(size: 200.0)),
     );
   }

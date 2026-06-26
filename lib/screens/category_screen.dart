@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/widget_info.dart';
 import '../data/widget_data.dart';
+import '../widgets/difficulty_badge.dart';
 import 'widget_detail_screen.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -16,28 +17,121 @@ class CategoryScreen extends StatelessWidget {
       appBar: AppBar(title: Text(category.name.toUpperCase())),
       body: widgets.isEmpty
           ? const Center(child: Text('No widgets in this category yet.'))
-          : ListView.builder(
-              itemCount: widgets.length,
-              itemBuilder: (context, index) {
-                final widgetInfo = widgets[index];
-                return ListTile(
-                  title: Text(widgetInfo.name),
-                  subtitle: Text(
-                    widgetInfo.description,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            WidgetDetailScreen(widgetInfo: widgetInfo),
-                      ),
-                    );
+          : Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 1200),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final wide = constraints.maxWidth >= 720;
+                    if (wide) {
+                      return GridView.builder(
+                        padding: const EdgeInsets.all(16),
+                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 400,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                          childAspectRatio: 1.5,
+                        ),
+                        itemCount: widgets.length,
+                        itemBuilder: (context, index) {
+                          final widgetInfo = widgets[index];
+                          return Card(
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        WidgetDetailScreen(widgetInfo: widgetInfo),
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            widgetInfo.name,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        DifficultyBadge(difficulty: widgetInfo.difficulty),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Expanded(
+                                      child: Text(
+                                        widgetInfo.description,
+                                        style: Theme.of(context).textTheme.bodyMedium,
+                                        maxLines: 3,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'View Details',
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.primary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          size: 16,
+                                          color: Theme.of(context).colorScheme.primary,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: widgets.length,
+                        itemBuilder: (context, index) {
+                          final widgetInfo = widgets[index];
+                          return ListTile(
+                            title: Text(widgetInfo.name),
+                            subtitle: Text(
+                              widgetInfo.description,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: DifficultyBadge(difficulty: widgetInfo.difficulty),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      WidgetDetailScreen(widgetInfo: widgetInfo),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      );
+                    }
                   },
-                );
-              },
+                ),
+              ),
             ),
     );
   }

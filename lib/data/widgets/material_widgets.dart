@@ -6,6 +6,16 @@ final List<WidgetInfo> materialWidgets = [
     name: 'Card',
     description: 'A material design card.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To group related content on an elevated, rounded surface. Use Card.outlined for a border or Card.filled for a tonal fill, or a Container when you need full decoration control.',
+    commonPitfalls: [
+      'A Card sizes to its child; give the child constraints or it may collapse.',
+      'clipBehavior defaults to Clip.none, so child ink splashes and images can overflow the rounded corners.',
+    ],
+    relatedWidgets: ['Card.filled', 'Card.outlined', 'Container', 'Material'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Card-class.html',
+    tags: ['surface', 'elevation', 'group'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const Card(
       child: Padding(
         padding: EdgeInsets.all(16.0),
@@ -25,6 +35,17 @@ Card(
     name: 'FloatingActionButton',
     description: 'A circular icon button that hovers over content.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For the single most important action on a screen, anchored above content. Use FloatingActionButton.extended when you need an accompanying label.',
+    commonPitfalls: [
+      'Place it via Scaffold.floatingActionButton rather than in the body so it floats correctly.',
+      'Multiple FABs on one screen need unique heroTag values or the hero animation throws.',
+    ],
+    relatedWidgets: ['Scaffold', 'IconButton', 'ElevatedButton'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/FloatingActionButton-class.html',
+    tags: ['button', 'action', 'fab'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) =>
         FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
     codeSnippet: '''
@@ -38,6 +59,16 @@ FloatingActionButton(
     name: 'AppBar',
     description: 'A material design app bar.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As the top bar of a screen for title, navigation and actions. Use it inside Scaffold.appBar; for a collapsing/scrolling bar use a SliverAppBar instead.',
+    commonPitfalls: [
+      'Placing an AppBar in the body instead of Scaffold.appBar loses safe-area and elevation behavior.',
+      'leading is auto-populated with a back or drawer button; set automaticallyImplyLeading: false to suppress it.',
+    ],
+    relatedWidgets: ['Scaffold', 'BottomAppBar', 'NavigationBar'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/AppBar-class.html',
+    tags: ['appbar', 'navigation', 'toolbar'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => SizedBox(
       height: 56,
       child: AppBar(
@@ -58,6 +89,16 @@ AppBar(
     name: 'Chip',
     description: 'A material design chip.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To display a compact attribute, tag or piece of information. For interactive chips prefer ActionChip, FilterChip, ChoiceChip or InputChip.',
+    commonPitfalls: [
+      'A plain Chip is not tappable; use one of the interactive chip variants for onPressed/onSelected behavior.',
+      'Long labels do not wrap; constrain width or they overflow.',
+    ],
+    relatedWidgets: ['ActionChip', 'FilterChip', 'InputChip', 'ChoiceChip'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Chip-class.html',
+    tags: ['chip', 'tag', 'label'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const Chip(
       avatar: CircleAvatar(child: Text('A')),
       label: Text('Chip Label'),
@@ -73,6 +114,17 @@ Chip(
     name: 'CircularProgressIndicator',
     description: 'A material design circular progress indicator.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show indeterminate or determinate progress in a small circular area. Use LinearProgressIndicator for a horizontal bar.',
+    commonPitfalls: [
+      'With no value it spins forever; pass value (0.0-1.0) for determinate progress.',
+      'It has no intrinsic size constraints in some layouts; wrap in a SizedBox to control diameter.',
+    ],
+    relatedWidgets: ['LinearProgressIndicator', 'RefreshIndicator'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/CircularProgressIndicator-class.html',
+    tags: ['progress', 'loading', 'spinner'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const CircularProgressIndicator(),
     codeSnippet: '''
 CircularProgressIndicator()
@@ -82,6 +134,17 @@ CircularProgressIndicator()
     name: 'LinearProgressIndicator',
     description: 'A material design linear progress indicator.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show progress along a horizontal bar, such as a download or form step. Use CircularProgressIndicator for a compact circular alternative.',
+    commonPitfalls: [
+      'It expands to its parent\'s full width; constrain it with a SizedBox or it fills the row.',
+      'Omitting value yields an indeterminate animation rather than a fixed fill.',
+    ],
+    relatedWidgets: ['CircularProgressIndicator', 'RefreshIndicator'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/LinearProgressIndicator-class.html',
+    tags: ['progress', 'loading', 'bar'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) =>
         const SizedBox(width: 200, child: LinearProgressIndicator()),
     codeSnippet: '''
@@ -92,6 +155,16 @@ LinearProgressIndicator()
     name: 'Divider',
     description: 'A thin horizontal line, with padding on either side.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To draw a thin horizontal rule separating content, typically between list items. Use VerticalDivider for vertical separation.',
+    commonPitfalls: [
+      'Its height includes surrounding space, not just the line thickness; tune thickness and height separately.',
+      'A zero-height parent will hide it; it needs vertical room in the layout.',
+    ],
+    relatedWidgets: ['Divider', 'ListTile', 'ListView'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Divider-class.html',
+    tags: ['divider', 'separator', 'line'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) =>
         const SizedBox(width: 200, child: Divider(color: Colors.black)),
     codeSnippet: '''
@@ -103,6 +176,21 @@ Divider(color: Colors.black)
     description:
         'A single fixed-height row that typically contains some text as well as a leading or trailing icon.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a fixed-height row with leading/trailing icons, a title and subtitle, ideal inside lists and drawers. Use CheckboxListTile/SwitchListTile/RadioListTile when the row also toggles a value.',
+    commonPitfalls: [
+      'It needs a Material ancestor for ink splashes; place it inside a Card, ListView or Material.',
+      'It enforces a fixed height; very tall subtitles get clipped, so use isThreeLine for longer content.',
+    ],
+    relatedWidgets: [
+      'CheckboxListTile',
+      'SwitchListTile',
+      'RadioListTile',
+      'ListView',
+    ],
+    docsUrl: 'https://api.flutter.dev/flutter/material/ListTile-class.html',
+    tags: ['list', 'row', 'tile'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const SizedBox(
       width: 300,
       child: Card(
@@ -125,6 +213,16 @@ ListTile(
     name: 'Tooltip',
     description: 'A material design tooltip.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To reveal a short text hint on long-press or hover over an icon or control. Wrap the target widget directly.',
+    commonPitfalls: [
+      'The child must be able to receive pointer events; wrapping a fully transparent area shows nothing.',
+      'Very long messages can overflow the screen edge; keep tooltip text short.',
+    ],
+    relatedWidgets: ['IconButton', 'Icon'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Tooltip-class.html',
+    tags: ['tooltip', 'hint', 'hover'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const Tooltip(
       message: 'I am a Tooltip',
       child: Icon(Icons.info, size: 50),
@@ -141,6 +239,17 @@ Tooltip(
     description:
         'A single-line list tile that produces a dynamically expanded list of other widgets.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a single self-managing collapsible row in a list. For a coordinated set of panels with shared expand state use ExpansionPanelList.',
+    commonPitfalls: [
+      'It manages its own expansion state unless you supply controlled callbacks; rebuilds can reset it without a maintainState/PageStorageKey.',
+      'Children render only when expanded, so measuring their size before expansion is unreliable.',
+    ],
+    relatedWidgets: ['ExpansionPanelList', 'ExpansionPanel', 'ListTile'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ExpansionTile-class.html',
+    tags: ['expand', 'collapse', 'accordion'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const Card(
       child: ExpansionTile(
         title: Text('Expand me'),
@@ -164,6 +273,17 @@ ExpansionTile(
     name: 'ExpansionPanelList',
     description: 'A material design expansion panel list.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To render a list of independently expandable panels with custom headers and bodies. For a simpler single collapsible row, use ExpansionTile.',
+    commonPitfalls: [
+      'You must track each panel\'s isExpanded yourself and rebuild in expansionCallback.',
+      'It is not scrollable on its own; wrap it in a SingleChildScrollView when it can exceed the viewport.',
+    ],
+    relatedWidgets: ['ExpansionPanel', 'ExpansionTile', 'ListView'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ExpansionPanelList-class.html',
+    tags: ['expand', 'panel', 'accordion'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _ExpansionPanelListSample(),
     codeSnippet: '''
 class _ExpansionPanelListSample extends StatefulWidget {
@@ -235,6 +355,16 @@ List<Item> generateItems(int numberOfItems) {
     description:
         'A lightweight message with an optional action which briefly displays at the bottom of the screen.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a brief, transient message at the bottom of the screen, optionally with a single action. Use MaterialBanner for a persistent message that stays until dismissed.',
+    commonPitfalls: [
+      'Show it via ScaffoldMessenger.of(context), not Scaffold.of, or it will not display reliably.',
+      'Calling showSnackBar repeatedly queues them; clear the queue with removeCurrentSnackBar if needed.',
+    ],
+    relatedWidgets: ['MaterialBanner', 'Scaffold', 'BottomSheet'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/SnackBar-class.html',
+    tags: ['snackbar', 'toast', 'message'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => ElevatedButton(
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -267,6 +397,16 @@ ElevatedButton(
     name: 'AlertDialog',
     description: 'A material design alert dialog.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To interrupt the user for a confirmation or short decision. Use SimpleDialog for a list of choices, or BottomSheet for non-blocking options.',
+    commonPitfalls: [
+      'Show it with showDialog, not by adding it to the tree directly.',
+      'Long content does not scroll by default; wrap content in a SingleChildScrollView or it overflows.',
+    ],
+    relatedWidgets: ['SimpleDialog', 'AboutDialog', 'BottomSheet'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/AlertDialog-class.html',
+    tags: ['dialog', 'modal', 'confirm'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => ElevatedButton(
       onPressed: () {
         showDialog(
@@ -313,6 +453,16 @@ showDialog(
     name: 'BottomSheet',
     description: 'A material design bottom sheet.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To surface supplementary content or actions from the bottom edge. Use showModalBottomSheet for a blocking sheet, or a Drawer for primary navigation.',
+    commonPitfalls: [
+      'A bare BottomSheet has no height; give its content a bounded height or it collapses.',
+      'Use showModalBottomSheet/showBottomSheet rather than constructing BottomSheet directly for correct dismissal behavior.',
+    ],
+    relatedWidgets: ['Scaffold', 'Drawer', 'SnackBar'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/BottomSheet-class.html',
+    tags: ['sheet', 'modal', 'bottom'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ElevatedButton(
       onPressed: () {
         showModalBottomSheet(
@@ -366,6 +516,15 @@ showModalBottomSheet(
     description:
         'A material design widget that displays a horizontal row of tabs.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To switch between a small number of peer views with a row of tabs. For top-level destinations prefer NavigationBar or NavigationRail.',
+    commonPitfalls: [
+      'TabBar and TabBarView must share the same TabController (or be under a DefaultTabController) or they desync.',
+      'The controller length must match the number of tabs and views exactly.',
+    ],
+    relatedWidgets: ['AppBar', 'NavigationBar', 'NavigationRail'],
+    tags: ['tabs', 'navigation', 'swipe'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _TabBarSample(),
     codeSnippet: '''
 class _TabBarSample extends StatelessWidget {
@@ -407,6 +566,16 @@ class _TabBarSample extends StatelessWidget {
     name: 'Badge',
     description: 'A Material Design badge.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To overlay a small count or status dot on another widget such as an icon. Wrap the target widget as the child.',
+    commonPitfalls: [
+      'Without a label it renders as a small dot; pass label for a count.',
+      'The badge anchors to the child\'s corner, so a zero-size child gives no useful position.',
+    ],
+    relatedWidgets: ['Icon', 'IconButton', 'NavigationBar'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Badge-class.html',
+    tags: ['badge', 'count', 'notification'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -435,6 +604,21 @@ Row(
     description:
         'A material design panel that slides in horizontally from the edge of a Scaffold.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a slide-in panel of primary navigation destinations. Use NavigationDrawer for the Material 3 destination-based variant.',
+    commonPitfalls: [
+      'Assign it to Scaffold.drawer so the swipe gesture and scrim work; placing it in the body does not.',
+      'Closing it requires Navigator.pop(context) since it is shown as a route.',
+    ],
+    relatedWidgets: [
+      'NavigationDrawer',
+      'Scaffold',
+      'DrawerHeader',
+      'ListTile',
+    ],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Drawer-class.html',
+    tags: ['drawer', 'navigation', 'menu'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => ElevatedButton(
       onPressed: () {
         // Drawers usually need a Scaffold context with a drawer set.
@@ -507,6 +691,17 @@ Scaffold(
     description:
         'Displays a menu when pressed and calls onSelected when the menu is dismissed because an item was selected.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show a menu of actions anchored to a button, typically in an AppBar. For a richer anchored menu use MenuAnchor.',
+    commonPitfalls: [
+      'onSelected only fires for items with a value; dividers and disabled items are skipped.',
+      'The itemBuilder runs each time the menu opens, so build items from current state, not cached widgets.',
+    ],
+    relatedWidgets: ['MenuAnchor', 'PopupMenuButton', 'IconButton'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/PopupMenuButton-class.html',
+    tags: ['menu', 'popup', 'actions'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => PopupMenuButton<String>(
       onSelected: (String result) {
         ScaffoldMessenger.of(
@@ -541,6 +736,16 @@ PopupMenuButton<String>(
     description:
         'A material design stepper widget that displays progress through a sequence of steps.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To guide users through a sequence of numbered steps, such as a multi-stage form. For a simpler progress display use a LinearProgressIndicator.',
+    commonPitfalls: [
+      'You must manage currentStep and respond to onStepContinue/onStepCancel yourself.',
+      'A vertical Stepper inside an unbounded-height parent can overflow; give it bounded height or use a scroll view.',
+    ],
+    relatedWidgets: ['Form', 'LinearProgressIndicator'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Stepper-class.html',
+    tags: ['stepper', 'wizard', 'steps'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _StepperSample(),
     codeSnippet: '''
 class _StepperSample extends StatefulWidget {
@@ -605,6 +810,16 @@ class _StepperSampleState extends State<_StepperSample> {
     name: 'DataTable',
     description: 'A material design data table.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a small, fully materialized table of rows and columns. For large or paged data use PaginatedDataTable.',
+    commonPitfalls: [
+      'It builds all rows at once, so it is unsuitable for large datasets.',
+      'It does not scroll by itself; wrap in SingleChildScrollView (often horizontally) to avoid overflow.',
+    ],
+    relatedWidgets: ['PaginatedDataTable', 'ListView'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/DataTable-class.html',
+    tags: ['table', 'grid', 'data'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => DataTable(
       columns: const <DataColumn>[
         DataColumn(
@@ -665,6 +880,17 @@ DataTable(
     description:
         'A material design widget that is displayed on the left or right of an app to navigate between a small number of views.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For top-level navigation on wider screens (tablets/desktop) as a vertical side rail. Use NavigationBar on compact/phone layouts.',
+    commonPitfalls: [
+      'It needs a bounded height; place it in a Row with Expanded content beside it.',
+      'You must track selectedIndex and rebuild on onDestinationSelected.',
+    ],
+    relatedWidgets: ['NavigationBar', 'NavigationDrawer', 'Scaffold'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/NavigationRail-class.html',
+    tags: ['navigation', 'rail', 'sidebar'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _NavigationRailSample(),
     codeSnippet: '''
 class _NavigationRailSample extends StatefulWidget {
@@ -724,6 +950,17 @@ class _NavigationRailSampleState extends State<_NavigationRailSample> {
     description:
         'A material widget that\'s displayed at the bottom of an app for selecting among a small number of views.',
     category: WidgetCategory.material,
+    whenToUse:
+        'The legacy Material 2 bottom navigation control. For new Material 3 apps prefer NavigationBar.',
+    commonPitfalls: [
+      'With four or more items it defaults to shifting type, hiding labels; set type: BottomNavigationBarType.fixed to keep them.',
+      'You must manage currentIndex and rebuild in onTap.',
+    ],
+    relatedWidgets: ['NavigationBar', 'NavigationRail', 'Scaffold'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html',
+    tags: ['navigation', 'bottom', 'tabs'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _BottomNavigationBarSample(),
     codeSnippet: '''
 class _BottomNavigationBarSample extends StatefulWidget {
@@ -769,6 +1006,22 @@ class _BottomNavigationBarSampleState extends State<_BottomNavigationBarSample> 
     name: 'NavigationBar',
     description: 'Material 3 navigation bar.',
     category: WidgetCategory.material,
+    whenToUse:
+        'The Material 3 bottom navigation bar for 3-5 top-level destinations on phones. Use NavigationRail for wide layouts.',
+    commonPitfalls: [
+      'You must track selectedIndex and update it in onDestinationSelected.',
+      'Each destination should be a NavigationDestination; mixing other widgets breaks layout.',
+    ],
+    relatedWidgets: [
+      'BottomNavigationBar',
+      'NavigationRail',
+      'NavigationDrawer',
+      'Scaffold',
+    ],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/NavigationBar-class.html',
+    tags: ['navigation', 'bottom', 'material3'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _NavigationBarSample(),
     codeSnippet: '''
 class _NavigationBarSample extends StatefulWidget {
@@ -816,6 +1069,17 @@ class _NavigationBarSampleState extends State<_NavigationBarSample> {
     description:
         'A banner displays an important, succinct message, and provides actions for users to address (or dismiss the banner).',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a prominent, persistent message at the top of the content that stays until dismissed. Use SnackBar for brief, auto-dismissing messages.',
+    commonPitfalls: [
+      'Show and hide it via ScaffoldMessenger; it will not disappear on its own.',
+      'Forgetting to call hideCurrentMaterialBanner leaves it stacked on screen.',
+    ],
+    relatedWidgets: ['SnackBar', 'Banner', 'Scaffold'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/MaterialBanner-class.html',
+    tags: ['banner', 'message', 'persistent'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _MaterialBannerSample(),
     codeSnippet: '''
 class _MaterialBannerSample extends StatelessWidget {
@@ -846,6 +1110,17 @@ class _MaterialBannerSample extends StatelessWidget {
     name: 'AboutListTile',
     description: 'A list tile that shows an "About" box.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To add a ready-made About entry, usually inside a Drawer, that opens the standard about dialog with license info.',
+    commonPitfalls: [
+      'It needs a Material/Scaffold ancestor to show its ink and to push the about route.',
+      'The tile shows default text unless you supply applicationName and related fields.',
+    ],
+    relatedWidgets: ['AboutDialog', 'ListTile', 'Drawer'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/AboutListTile-class.html',
+    tags: ['about', 'license', 'tile'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const AboutListTile(
       icon: Icon(Icons.info),
       applicationName: 'Flutter Widget Samples',
@@ -869,6 +1144,16 @@ AboutListTile(
     name: 'IconButton',
     description: 'A material design icon button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a tappable icon-only action, common in app bars and toolbars. Use a labeled button (TextButton, ElevatedButton) when text improves clarity.',
+    commonPitfalls: [
+      'Always provide a tooltip for accessibility since there is no visible label.',
+      'Its tap target is padded to 48x48 by default; shrinking visualDensity can hurt touch accessibility.',
+    ],
+    relatedWidgets: ['Icon', 'TextButton', 'Tooltip', 'FloatingActionButton'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/IconButton-class.html',
+    tags: ['button', 'icon', 'action'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => IconButton(
       icon: const Icon(Icons.thumb_up),
       onPressed: () {},
@@ -886,6 +1171,16 @@ IconButton(
     name: 'TextButton',
     description: 'A material design text button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For low-emphasis actions like dialog dismiss or inline links. Use OutlinedButton for medium emphasis and ElevatedButton/FilledButton for high emphasis.',
+    commonPitfalls: [
+      'Its low contrast can fail to read as a button; reserve it for secondary actions.',
+      'Style it through styleFrom rather than wrapping in extra padding widgets.',
+    ],
+    relatedWidgets: ['OutlinedButton', 'ElevatedButton', 'FilledButton'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/TextButton-class.html',
+    tags: ['button', 'text', 'action'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) =>
         TextButton(onPressed: () {}, child: const Text('Text Button')),
     codeSnippet: '''
@@ -899,6 +1194,17 @@ TextButton(
     name: 'OutlinedButton',
     description: 'A material design outlined button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For medium-emphasis actions that need more attention than a TextButton but less than a filled button. Use ElevatedButton/FilledButton for the primary action.',
+    commonPitfalls: [
+      'The border color follows the theme; override it via styleFrom side for custom outlines.',
+      'Like other buttons, a null onPressed disables it rather than just removing the handler.',
+    ],
+    relatedWidgets: ['TextButton', 'ElevatedButton', 'FilledButton'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/OutlinedButton-class.html',
+    tags: ['button', 'outlined', 'action'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) =>
         OutlinedButton(onPressed: () {}, child: const Text('Outlined Button')),
     codeSnippet: '''
@@ -913,6 +1219,15 @@ OutlinedButton(
     description:
         'A widget that insets its child by sufficient padding to avoid intrusions by the operating system.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To inset content away from notches, status bars and rounded corners. Wrap the screen body that would otherwise be obscured by system UI.',
+    commonPitfalls: [
+      'Nesting multiple SafeAreas double-applies padding; apply it once near the top of the subtree.',
+      'It only pads where intrusions exist, so its effect varies by device and orientation.',
+    ],
+    relatedWidgets: ['Scaffold', 'Container', 'SizedBox'],
+    tags: ['layout', 'inset', 'padding'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Container(
       height: 100,
       color: Colors.blue,
@@ -936,6 +1251,21 @@ SafeArea(
     description:
         'Implements the basic material design visual layout structure.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As the structural frame of a screen, hosting app bar, body, FAB, drawer and bottom navigation. Use it once per route as the top-level page layout.',
+    commonPitfalls: [
+      'Scaffold.of(context) needs a context below the Scaffold; use a Builder or ScaffoldMessenger for snackbars.',
+      'Putting a Scaffold inside another Scaffold\'s body is usually a layout smell unless intentional (e.g. nested navigation).',
+    ],
+    relatedWidgets: [
+      'AppBar',
+      'Drawer',
+      'FloatingActionButton',
+      'BottomNavigationBar',
+    ],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Scaffold-class.html',
+    tags: ['layout', 'screen', 'structure'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => SizedBox(
       height: 300,
       child: Scaffold(
@@ -968,6 +1298,17 @@ Scaffold(
     description:
         'A Material Design panel that slides in horizontally from the edge of a Scaffold to show navigation destinations.',
     category: WidgetCategory.material,
+    whenToUse:
+        'The Material 3 destination-based slide-in drawer. Use the classic Drawer when you want fully custom children instead of destinations.',
+    commonPitfalls: [
+      'Track selectedIndex and update it in onDestinationSelected.',
+      'Assign it to Scaffold.drawer so the gesture and scrim behave correctly.',
+    ],
+    relatedWidgets: ['Drawer', 'NavigationBar', 'NavigationRail', 'Scaffold'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/NavigationDrawer-class.html',
+    tags: ['drawer', 'navigation', 'material3'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ElevatedButton(
       onPressed: () {
         Navigator.push(
@@ -1016,6 +1357,16 @@ Scaffold(
     name: 'SearchAnchor',
     description: 'A Material 3 search anchor for displaying search results.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To build a Material 3 search experience where tapping a bar opens a full search view with live suggestions. Use SearchBar alone when you only need the input field.',
+    commonPitfalls: [
+      'You must supply a suggestionsBuilder that returns results for the current query; returning stale items confuses users.',
+      'Manage the SearchController and close the view explicitly after a selection.',
+    ],
+    relatedWidgets: ['SearchBar', 'MenuAnchor', 'TextField'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/SearchAnchor-class.html',
+    tags: ['search', 'suggestions', 'material3'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => SearchAnchor(
       builder: (BuildContext context, SearchController controller) {
         return SearchBar(
@@ -1072,6 +1423,16 @@ SearchAnchor(
     name: 'MenuBar',
     description: 'A Material 3 menu bar widget.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a persistent horizontal menu bar of cascading menus, typical on desktop. For a single contextual/anchored menu use MenuAnchor.',
+    commonPitfalls: [
+      'Menu items must be SubmenuButton/MenuItemButton; arbitrary widgets break keyboard traversal.',
+      'It is designed for desktop ergonomics and feels out of place on small touch screens.',
+    ],
+    relatedWidgets: ['MenuAnchor', 'PopupMenuButton'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/MenuBar-class.html',
+    tags: ['menu', 'desktop', 'bar'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => Row(
       children: [
         Expanded(
@@ -1137,6 +1498,16 @@ MenuBar(
     name: 'MenuAnchor',
     description: 'A Material 3 anchor for a menu.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To attach a cascading menu to any widget and control its open state. Use PopupMenuButton for the simpler icon-triggered menu case.',
+    commonPitfalls: [
+      'The builder must wire up the controller\'s open/close; forgetting to call controller.open leaves nothing visible.',
+      'Menu children should be MenuItemButton/SubmenuButton for correct focus and keyboard handling.',
+    ],
+    relatedWidgets: ['MenuBar', 'PopupMenuButton', 'SearchAnchor'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/MenuAnchor-class.html',
+    tags: ['menu', 'anchor', 'material3'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _MenuAnchorSample(),
     codeSnippet: '''
 class _MenuAnchorSample extends StatefulWidget {
@@ -1189,6 +1560,16 @@ class _MenuAnchorSampleState extends State<_MenuAnchorSample> {
     description:
         'A material design app bar that integrates with a CustomScrollView.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For an app bar that scrolls, collapses or pins inside a CustomScrollView. Use a plain AppBar for a fixed, non-scrolling bar.',
+    commonPitfalls: [
+      'It only works as a sliver inside a CustomScrollView, not directly in a Scaffold.appBar.',
+      'floating, pinned and snap interact subtly; the wrong combination yields jumpy scroll behavior.',
+    ],
+    relatedWidgets: ['AppBar', 'Scaffold'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/SliverAppBar-class.html',
+    tags: ['appbar', 'sliver', 'scroll'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => SizedBox(
       height: 300,
       child: CustomScrollView(
@@ -1235,6 +1616,16 @@ CustomScrollView(
     name: 'ActionChip',
     description: 'A chip that represents an action.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a chip that triggers an action when tapped, like a quick command. Use FilterChip/ChoiceChip for selection rather than actions.',
+    commonPitfalls: [
+      'onPressed is required for it to be interactive; without it the chip looks disabled.',
+      'It does not maintain a selected state; use FilterChip if you need toggling.',
+    ],
+    relatedWidgets: ['Chip', 'FilterChip', 'InputChip', 'ChoiceChip'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/ActionChip-class.html',
+    tags: ['chip', 'action', 'button'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => ActionChip(
       avatar: const Icon(Icons.favorite),
       label: const Text('Action Chip'),
@@ -1259,6 +1650,16 @@ ActionChip(
     description:
         'A chip that uses a checkmark to indicate whether it is selected.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To let users toggle a filter on or off, showing a checkmark when selected. For single-choice selection use ChoiceChip.',
+    commonPitfalls: [
+      'You must track selected and update it in onSelected; the chip does not store its own state.',
+      'Multiple filters need separate state values, not a shared one.',
+    ],
+    relatedWidgets: ['ChoiceChip', 'ActionChip', 'InputChip', 'Chip'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/FilterChip-class.html',
+    tags: ['chip', 'filter', 'toggle'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const _FilterChipSample(),
     codeSnippet: '''
 class _FilterChipSample extends StatefulWidget {
@@ -1290,6 +1691,16 @@ class _FilterChipSampleState extends State<_FilterChipSample> {
     name: 'ChoiceChip',
     description: 'A chip that allows selecting a single choice from a set.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To pick a single option from a small set, like a radio group rendered as chips. Use FilterChip for multi-select filtering.',
+    commonPitfalls: [
+      'Enforce single selection yourself by clearing the previous choice in onSelected.',
+      'It relies on the selected flag; forgetting to rebuild leaves the UI out of sync.',
+    ],
+    relatedWidgets: ['FilterChip', 'ActionChip', 'InputChip', 'Chip'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/ChoiceChip-class.html',
+    tags: ['chip', 'choice', 'select'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const _ChoiceChipSample(),
     codeSnippet: '''
 class _ChoiceChipSample extends StatefulWidget {
@@ -1330,6 +1741,16 @@ class _ChoiceChipSampleState extends State<_ChoiceChipSample> {
     description:
         'A chip that represents a complex piece of information, such as an entity (person, place, or thing) or text, in a compact form.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To represent a user-entered entity, often deletable, such as a recipient token. For action or filter behavior use ActionChip or FilterChip.',
+    commonPitfalls: [
+      'Wire onDeleted to actually remove the underlying data, not just hide the chip.',
+      'It supports selection, deletion and pressing at once; conflicting handlers can confuse users.',
+    ],
+    relatedWidgets: ['Chip', 'FilterChip', 'ChoiceChip', 'ActionChip'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/InputChip-class.html',
+    tags: ['chip', 'input', 'token'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => InputChip(
       avatar: const CircleAvatar(child: Text('AB')),
       label: const Text('Input Chip'),
@@ -1348,6 +1769,21 @@ InputChip(
     description:
         'A container that is typically used with Scaffold.bottomNavigationBar, and can have a notch along the top that makes room for an overlapping FloatingActionButton.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As a bottom bar that can host actions and notch a docked FloatingActionButton. For top-level destination navigation prefer NavigationBar.',
+    commonPitfalls: [
+      'The FAB notch only appears when shape is set and the FAB location is docked.',
+      'Place it in Scaffold.bottomNavigationBar so it interacts with the FAB correctly.',
+    ],
+    relatedWidgets: [
+      'FloatingActionButton',
+      'NavigationBar',
+      'Scaffold',
+      'AppBar',
+    ],
+    docsUrl: 'https://api.flutter.dev/flutter/material/BottomAppBar-class.html',
+    tags: ['appbar', 'bottom', 'fab'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -1380,6 +1816,22 @@ Scaffold(
     description:
         'A material design drawer header that identifies the user of the application.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As a drawer header showing the signed-in user\'s name, email and avatar. Use the plain DrawerHeader when you do not need account details.',
+    commonPitfalls: [
+      'It expects a Material/Scaffold ancestor and is meant to sit at the top of a Drawer\'s children.',
+      'Long names or emails are truncated; very long values are clipped rather than wrapped.',
+    ],
+    relatedWidgets: [
+      'DrawerHeader',
+      'Drawer',
+      'CircleAvatar',
+      'NavigationDrawer',
+    ],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/UserAccountsDrawerHeader-class.html',
+    tags: ['drawer', 'header', 'account'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const UserAccountsDrawerHeader(
       accountName: Text('John Doe'),
       accountEmail: Text('john.doe@example.com'),
@@ -1414,6 +1866,16 @@ UserAccountsDrawerHeader(
     name: 'AboutDialog',
     description: 'A dialog that displays information about the application.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show the standard application about box with version and license links. Use showAboutDialog, or AboutListTile to add an entry that opens it.',
+    commonPitfalls: [
+      'Trigger it via showAboutDialog rather than building it inline.',
+      'It shows generic placeholders unless you pass applicationName, version and icon.',
+    ],
+    relatedWidgets: ['AboutListTile', 'AlertDialog', 'SimpleDialog'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/AboutDialog-class.html',
+    tags: ['about', 'dialog', 'license'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => ElevatedButton(
       onPressed: () {
         showAboutDialog(
@@ -1452,6 +1914,17 @@ showAboutDialog(
     name: 'VerticalDivider',
     description: 'A thin vertical line, with padding on either side.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To draw a thin vertical rule between items laid out in a Row. Use Divider for horizontal separation.',
+    commonPitfalls: [
+      'Its width includes the surrounding space, not just the line; tune thickness separately.',
+      'It needs a bounded height, so a Row without a fixed height may not show it.',
+    ],
+    relatedWidgets: ['Divider', 'Row'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/VerticalDivider-class.html',
+    tags: ['divider', 'vertical', 'separator'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const SizedBox(
       height: 100,
       child: Row(
@@ -1492,6 +1965,16 @@ SizedBox(
     name: 'CloseButton',
     description: 'A Material Design close button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a standard X button to dismiss a screen or dialog, with built-in tooltip and semantics. Use BackButton for hierarchical back navigation.',
+    commonPitfalls: [
+      'By default it calls Navigator.maybePop; override onPressed for custom dismissal.',
+      'It needs a navigable route to pop or the default action does nothing.',
+    ],
+    relatedWidgets: ['IconButton', 'AppBar'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/CloseButton-class.html',
+    tags: ['button', 'close', 'dismiss'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => CloseButton(
       onPressed: () {
         ScaffoldMessenger.of(
@@ -1511,6 +1994,16 @@ CloseButton(
     name: 'BackButton',
     description: 'A Material Design back button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For the platform-appropriate back navigation icon with correct semantics. Use CloseButton to dismiss modal surfaces instead.',
+    commonPitfalls: [
+      'It defaults to Navigator.maybePop; if there is nothing to pop it silently does nothing.',
+      'Adding it manually can duplicate the AppBar\'s automatic leading back button.',
+    ],
+    relatedWidgets: ['IconButton', 'AppBar'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/BackButton-class.html',
+    tags: ['button', 'back', 'navigation'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const BackButton(),
     codeSnippet: '''
 BackButton(
@@ -1524,6 +2017,16 @@ BackButton(
     name: 'SimpleDialog',
     description: 'A simple material design dialog.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To present a short list of selectable options in a dialog. Use AlertDialog when you need a message plus confirm/cancel actions.',
+    commonPitfalls: [
+      'Show it with showDialog, not by inserting it into the tree.',
+      'Options should be SimpleDialogOption widgets that pop with their result; returning nothing makes selection ambiguous.',
+    ],
+    relatedWidgets: ['AlertDialog', 'AboutDialog', 'BottomSheet'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/SimpleDialog-class.html',
+    tags: ['dialog', 'options', 'modal'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => ElevatedButton(
       onPressed: () {
         showDialog(
@@ -1576,6 +2079,16 @@ showDialog(
     name: 'DropdownMenu',
     description: 'A button that when clicked shows a dropdown menu.',
     category: WidgetCategory.material,
+    whenToUse:
+        'The Material 3 menu that combines a text field with a filterable dropdown list. Use DropdownButton for the simpler Material 2 selector.',
+    commonPitfalls: [
+      'Entries are DropdownMenuEntry objects; passing plain widgets does not work.',
+      'With requestFocusOnTap and filtering enabled, manage the controller text or selection state can drift.',
+    ],
+    relatedWidgets: ['DropdownButton', 'TextField', 'MenuAnchor'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/DropdownMenu-class.html',
+    tags: ['dropdown', 'menu', 'select'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _DropdownMenuSample(),
     codeSnippet: '''
 class _DropdownMenuSample extends StatefulWidget {
@@ -2109,6 +2622,17 @@ final List<WidgetInfo> materialWidgetsExtra = [
     description:
         'A button that opens a cascading sub-menu. Used inside a MenuBar or MenuAnchor.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To create a cascading sub-menu inside a MenuBar or MenuAnchor. Use MenuItemButton for terminal (non-nested) menu actions.',
+    commonPitfalls: [
+      'It only behaves correctly inside a MenuBar or MenuAnchor, not standalone.',
+      'Its menuChildren should themselves be menu buttons for proper focus traversal.',
+    ],
+    relatedWidgets: ['MenuBar', 'MenuAnchor'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/SubmenuButton-class.html',
+    tags: ['menu', 'submenu', 'cascade'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _SubmenuButtonSample(),
     codeSnippet: '''
 MenuBar(
@@ -2137,6 +2661,17 @@ MenuBar(
     description:
         'A menu button with an embedded checkbox. Used inside MenuAnchor or MenuBar menus.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a menu entry that toggles a boolean, shown with a checkbox, inside a MenuAnchor or MenuBar. Use MenuItemButton for plain actions.',
+    commonPitfalls: [
+      'You must track and pass value and update it in onChanged; it does not store its own state.',
+      'It is intended for menus only; outside a menu its layout looks wrong.',
+    ],
+    relatedWidgets: ['MenuAnchor', 'MenuBar', 'Checkbox'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/CheckboxMenuButton-class.html',
+    tags: ['menu', 'checkbox', 'toggle'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _CheckboxMenuButtonSample(),
     codeSnippet: '''
 MenuAnchor(
@@ -2161,6 +2696,17 @@ MenuAnchor(
     description:
         'A menu button with an embedded radio indicator. Used inside MenuAnchor or MenuBar menus.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For mutually exclusive choices inside a menu, shown with a radio indicator. Use CheckboxMenuButton for independent toggles.',
+    commonPitfalls: [
+      'Each button shares a groupValue; mismatched value/groupValue types break selection.',
+      'It belongs inside a MenuAnchor or MenuBar, not as a standalone control.',
+    ],
+    relatedWidgets: ['MenuAnchor', 'MenuBar'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/RadioMenuButton-class.html',
+    tags: ['menu', 'radio', 'select'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _RadioMenuButtonSample(),
     codeSnippet: '''
 MenuAnchor(
@@ -2192,6 +2738,16 @@ MenuAnchor(
     description:
         'An area of a Material that responds to touch. More flexible than InkWell; supports custom splash shapes and radii.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For touch feedback with custom splash shape and radius. Use InkWell for the common rectangular splash, or GestureDetector when you need no ink at all.',
+    commonPitfalls: [
+      'It requires a Material ancestor for the splash to render.',
+      'Splashes can be clipped or invisible over opaque decorations; draw backgrounds with Ink so the splash shows.',
+    ],
+    relatedWidgets: ['InkWell', 'Material'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/InkResponse-class.html',
+    tags: ['ink', 'touch', 'splash'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => Material(
       color: Colors.white,
       child: Center(
@@ -2240,6 +2796,17 @@ InkResponse(
     description:
         'Draws the Material Design text-field chrome (border, label, hint, prefix/suffix) around any arbitrary child widget.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To wrap a non-text-field child in the Material text-field chrome (label, border, hint). For actual text entry use TextField, which already includes it.',
+    commonPitfalls: [
+      'It does not provide editing; it only draws decoration around the child.',
+      'It must be given an InputDecoration and a baseline-aware child or the label floats incorrectly.',
+    ],
+    relatedWidgets: ['TextField', 'InputDecorator', 'Form'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/InputDecorator-class.html',
+    tags: ['input', 'decoration', 'form'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const Padding(
       padding: EdgeInsets.all(16.0),
       child: InputDecorator(
@@ -2265,42 +2832,23 @@ InputDecorator(
 ''',
   ),
 
-  // 6 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'OverflowBar',
-    description:
-        'A widget that lays out its children in a row and wraps them to a new row when they overflow. Commonly used for dialog action buttons.',
-    category: WidgetCategory.material,
-    builder: (context) => OverflowBar(
-      alignment: MainAxisAlignment.end,
-      spacing: 8,
-      overflowSpacing: 8,
-      children: [
-        OutlinedButton(onPressed: () {}, child: const Text('Cancel')),
-        OutlinedButton(onPressed: () {}, child: const Text('Maybe Later')),
-        FilledButton(onPressed: () {}, child: const Text('Accept')),
-      ],
-    ),
-    codeSnippet: '''
-OverflowBar(
-  alignment: MainAxisAlignment.end,
-  spacing: 8,
-  overflowSpacing: 8,
-  children: [
-    OutlinedButton(onPressed: () {}, child: const Text('Cancel')),
-    OutlinedButton(onPressed: () {}, child: const Text('Maybe Later')),
-    FilledButton(onPressed: () {}, child: const Text('Accept')),
-  ],
-)
-''',
-  ),
-
   // 7 ─────────────────────────────────────────
   WidgetInfo(
     name: 'FloatingActionButton.extended',
     description:
         'A wider FAB that includes both an icon and a visible text label. Ideal for primary actions that need clear labelling.',
     category: WidgetCategory.material,
+    whenToUse:
+        'When the primary action benefits from a visible text label alongside the icon. Use the standard FloatingActionButton when an icon alone is clear.',
+    commonPitfalls: [
+      'Like all FABs, multiple on screen need unique heroTag values.',
+      'The label should stay short; long labels make the FAB dominate the layout.',
+    ],
+    relatedWidgets: ['FloatingActionButton', 'ElevatedButton', 'Scaffold'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/FloatingActionButton-class.html',
+    tags: ['button', 'fab', 'label'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -2335,6 +2883,16 @@ FloatingActionButton.extended(
     description:
         'An inherited widget that configures how Divider and VerticalDivider look in its widget subtree.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set the color, thickness and spacing of all Divider and VerticalDivider widgets in a subtree, instead of styling each one.',
+    commonPitfalls: [
+      'It only affects descendants; dividers outside the subtree keep theme defaults.',
+      'Per-widget properties override the theme, so local values can mask your theme settings.',
+    ],
+    relatedWidgets: ['Divider', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/DividerTheme-class.html',
+    tags: ['theme', 'divider', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => DividerTheme(
       data: const DividerThemeData(
         color: Colors.indigo,
@@ -2378,6 +2936,15 @@ DividerTheme(
     description:
         'Enables and controls text-selection behaviour over an entire subtree of widgets. Use SelectionContainer.disabled to opt out.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To enable coordinated text selection across an arbitrary subtree, or SelectionContainer.disabled to opt a region out. Prefer SelectableText for a single block.',
+    commonPitfalls: [
+      'Without a registered SelectionRegistrar/controller, selection will not function.',
+      'Nesting selection containers can produce surprising selection boundaries.',
+    ],
+    relatedWidgets: ['Text'],
+    tags: ['selection', 'text', 'copy'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2434,6 +3001,15 @@ SelectionContainer.disabled(
     description:
         'Arranges buttons in a horizontal bar. Deprecated in favour of OverflowBar, but still widely used in older codebases and dialogs.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To lay out a horizontal row of buttons, historically in dialog footers. It is deprecated; prefer OverflowBar or a Row/Wrap in new code.',
+    commonPitfalls: [
+      'It is deprecated, so avoid it in new code and migrate to OverflowBar.',
+      'It does not wrap on narrow widths, so buttons can overflow horizontally.',
+    ],
+    relatedWidgets: ['Row', 'TextButton', 'ElevatedButton'],
+    tags: ['buttons', 'bar', 'layout'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => Card(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -2639,6 +3215,16 @@ final List<WidgetInfo> materialWidgetsExtra2 = [
     description:
         'The base material-design surface widget. Provides ink effects, elevation shadows, and clipping for everything built on top of it.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As the surface that provides ink splashes, elevation and clipping for Material widgets. Most Material widgets need a Material ancestor; Scaffold and Card already supply one.',
+    commonPitfalls: [
+      'Ink effects from children fail to render without a Material ancestor (the classic black-text-on-no-background bug).',
+      'Stacking many elevated Material layers can produce unexpected shadow overlap.',
+    ],
+    relatedWidgets: ['Card', 'InkWell', 'Scaffold'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Material-class.html',
+    tags: ['surface', 'ink', 'elevation'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -2678,6 +3264,16 @@ Material(
     description:
         'A convenience widget for drawing images and other decorations on a Material so that InkWell splashes print correctly over them.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To paint a background image or decoration on a Material so that overlaying InkWell splashes remain visible. Use a plain Container when you do not need ink to show through.',
+    commonPitfalls: [
+      'It must sit on a Material ancestor or the splash still will not show.',
+      'Decorating with a Container instead clips the splash; that is exactly what Ink avoids.',
+    ],
+    relatedWidgets: ['InkWell', 'Material', 'Container'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Ink-class.html',
+    tags: ['ink', 'decoration', 'splash'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => Material(
       color: Colors.transparent,
       child: Row(
@@ -2739,6 +3335,17 @@ InkWell(
     description:
         'An ElevatedButton variant that places an icon to the left of the label. Useful for actions that benefit from a visual cue.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a high-emphasis action that pairs an icon with a label. Use plain ElevatedButton when no icon is needed.',
+    commonPitfalls: [
+      'A null onPressed disables it; pass an empty handler only if you truly want it enabled.',
+      'Overusing elevated buttons on one screen dilutes emphasis; reserve them for primary actions.',
+    ],
+    relatedWidgets: ['ElevatedButton', 'FilledButton', 'OutlinedButton'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ElevatedButton-class.html',
+    tags: ['button', 'icon', 'elevated'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -2777,6 +3384,16 @@ ElevatedButton.icon(
     description:
         'A TextButton variant that pairs an icon with a text label. Good for in-line or lower-emphasis actions.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a low-emphasis action that benefits from an icon next to its label. Use the plain TextButton when text alone is clear.',
+    commonPitfalls: [
+      'Its low contrast can read as non-interactive; keep it for secondary actions.',
+      'Style through styleFrom rather than wrapping in extra padding.',
+    ],
+    relatedWidgets: ['TextButton', 'OutlinedButton', 'ElevatedButton'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/TextButton-class.html',
+    tags: ['button', 'icon', 'text'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -2815,6 +3432,17 @@ TextButton.icon(
     description:
         'An OutlinedButton variant that combines an icon and a label. Used for medium-emphasis actions that still need visual distinction.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a medium-emphasis action that combines an icon and a label. Use the plain OutlinedButton when no icon is required.',
+    commonPitfalls: [
+      'The border follows the theme; override side in styleFrom for custom outlines.',
+      'A null onPressed disables the button rather than just dropping the handler.',
+    ],
+    relatedWidgets: ['OutlinedButton', 'TextButton', 'ElevatedButton'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/OutlinedButton-class.html',
+    tags: ['button', 'icon', 'outlined'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -2853,6 +3481,17 @@ OutlinedButton.icon(
     description:
         'A Material Design calendar-style date picker that can be embedded directly inside a layout (unlike showDatePicker which uses a dialog).',
     category: WidgetCategory.material,
+    whenToUse:
+        'To embed an inline month/day calendar directly in your layout. Use showDatePicker for the standard modal dialog flow.',
+    commonPitfalls: [
+      'initialDate must fall within firstDate and lastDate or it asserts.',
+      'It only reports changes via onDateChanged; you must store the selected date yourself.',
+    ],
+    relatedWidgets: ['DatePicker', 'DateRangePickerDialog'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/CalendarDatePicker-class.html',
+    tags: ['date', 'calendar', 'picker'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _CalendarDatePickerSample(),
     codeSnippet: '''
 CalendarDatePicker(
@@ -2872,6 +3511,16 @@ CalendarDatePicker(
     description:
         'A scrollable list of years that lets the user pick a year. Typically used as part of a custom date picker UI.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As a building block to let users scroll and pick a year, usually within a custom date-picker UI. For a full picker prefer CalendarDatePicker or showDatePicker.',
+    commonPitfalls: [
+      'It needs bounded height since it is a scrollable list; an unbounded parent overflows.',
+      'selectedDate, firstDate and lastDate must be consistent or selection misbehaves.',
+    ],
+    relatedWidgets: ['DatePicker', 'DateRangePickerDialog'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/YearPicker-class.html',
+    tags: ['date', 'year', 'picker'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _YearPickerSample(),
     codeSnippet: '''
 SizedBox(
@@ -2894,6 +3543,16 @@ SizedBox(
     description:
         'An inherited widget that applies a ChipThemeData to all Chip widgets in its subtree, letting you customise colour, shape, padding and more.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To style every Chip-family widget in a subtree at once (colors, shape, padding). Style a single chip directly when only one needs to differ.',
+    commonPitfalls: [
+      'It requires a complete ChipThemeData; build from ChipThemeData.fromDefaults or the ambient theme to avoid missing fields.',
+      'Per-chip properties override the theme.',
+    ],
+    relatedWidgets: ['Chip', 'FilterChip', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/ChipTheme-class.html',
+    tags: ['theme', 'chip', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ChipTheme(
       data: ChipThemeData(
         backgroundColor: Colors.deepPurple.shade50,
@@ -2936,6 +3595,16 @@ ChipTheme(
     description:
         'An inherited widget that applies SwitchThemeData to all Switch widgets in its subtree, letting you customise thumb and track colours.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set thumb and track colors and shape for all Switch widgets in a subtree. Set properties on a single Switch when only one should differ.',
+    commonPitfalls: [
+      'Color properties are often WidgetStateProperty; passing a plain Color ignores selected/disabled states.',
+      'It only affects descendants of the SwitchTheme.',
+    ],
+    relatedWidgets: ['Switch', 'SwitchListTile', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/SwitchTheme-class.html',
+    tags: ['theme', 'switch', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _SwitchThemeSample(),
     codeSnippet: '''
 SwitchTheme(
@@ -2965,6 +3634,17 @@ SwitchTheme(
     description:
         'An inherited widget that applies CheckboxThemeData to all Checkbox widgets in its subtree, letting you customise fill and check colours.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To apply consistent fill, check and overlay colors to all Checkbox widgets in a subtree. Style a single checkbox inline for one-off cases.',
+    commonPitfalls: [
+      'fillColor and friends are WidgetStateProperty; a plain Color will not vary by state.',
+      'It influences only descendant checkboxes, not the whole app unless placed high enough.',
+    ],
+    relatedWidgets: ['Checkbox', 'CheckboxListTile', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/CheckboxTheme-class.html',
+    tags: ['theme', 'checkbox', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _CheckboxThemeSample(),
     codeSnippet: '''
 CheckboxTheme(
@@ -3155,6 +3835,16 @@ final List<WidgetInfo> materialWidgetsExtra3 = [
     description:
         'An inherited widget that applies RadioThemeData to all Radio widgets in its subtree, customising fill colour and overlay.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set fill color and overlay for all Radio widgets in a subtree. Style individual radios inline when only one differs.',
+    commonPitfalls: [
+      'fillColor is a WidgetStateProperty; a single Color will not reflect selected/disabled states.',
+      'Only descendants of the RadioTheme are affected.',
+    ],
+    relatedWidgets: ['RadioListTile', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/RadioTheme-class.html',
+    tags: ['theme', 'radio', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _RadioThemeSample(),
     codeSnippet: '''
 RadioTheme(
@@ -3180,6 +3870,16 @@ RadioTheme(
     description:
         'An inherited widget that styles all Slider widgets in its subtree — track height, thumb shape, active/inactive colours and more.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To customize track height, thumb shape and active/inactive colors of all Slider widgets in a subtree. Use it instead of styling many sliders one by one.',
+    commonPitfalls: [
+      'Custom thumb/track shapes are full classes (e.g. RoundSliderThumbShape); a wrong shape can clip or overflow.',
+      'It only affects descendant sliders.',
+    ],
+    relatedWidgets: ['Slider', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/SliderTheme-class.html',
+    tags: ['theme', 'slider', 'styling'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _SliderThemeSample(),
     codeSnippet: '''
 SliderTheme(
@@ -3202,6 +3902,17 @@ SliderTheme(
     description:
         'An inherited widget that applies ListTileThemeData across all ListTile widgets in its subtree — useful for bulk styling.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To apply consistent colors, density and content padding to all ListTile widgets in a subtree. Use it for lists and drawers instead of repeating styles.',
+    commonPitfalls: [
+      'Per-tile properties override the theme, so a stray inline color masks the theme.',
+      'It only affects descendant tiles, so place it above the relevant list.',
+    ],
+    relatedWidgets: ['ListTile', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ListTileTheme-class.html',
+    tags: ['theme', 'listtile', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ListTileTheme(
       data: const ListTileThemeData(
         tileColor: Color(0xFFF0F4FF),
@@ -3250,6 +3961,17 @@ ListTileTheme(
     description:
         'An inherited widget that applies ExpansionTileThemeData to all ExpansionTile widgets — controls header colour, icon colour, and background.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set header, icon and background colors for all ExpansionTile widgets in a subtree. Use it instead of styling each tile individually.',
+    commonPitfalls: [
+      'It only affects descendant ExpansionTiles.',
+      'Inline tile properties override the theme values.',
+    ],
+    relatedWidgets: ['ExpansionTile', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ExpansionTileTheme-class.html',
+    tags: ['theme', 'expansion', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ExpansionTileTheme(
       data: const ExpansionTileThemeData(
         backgroundColor: Color(0xFFE8F5E9),
@@ -3298,6 +4020,16 @@ ExpansionTileTheme(
     description:
         'A Material 3 card variant with a visible outline border and no elevation. Useful for secondary content areas.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a card with a visible border and no shadow, useful for secondary or grouped content. Use the default Card for elevation or Card.filled for a tonal fill.',
+    commonPitfalls: [
+      'It sizes to its child; an unconstrained child can collapse it.',
+      'clipBehavior defaults to Clip.none, so child content can overflow the rounded border.',
+    ],
+    relatedWidgets: ['Card', 'Card.filled', 'Container', 'Material'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Card-class.html',
+    tags: ['card', 'outlined', 'surface'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -3346,6 +4078,16 @@ Card.outlined(
     description:
         'A Material 3 card variant with a solid surface colour fill and no elevation or border. Used for non-interactive containers.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a non-elevated card with a tonal surface fill, good for passive grouped content. Use the default Card for elevation or Card.outlined for a border.',
+    commonPitfalls: [
+      'Like all cards it sizes to its child; constrain the child to avoid collapse.',
+      'Its fill comes from the theme\'s surface colors, so it may look subtle on some color schemes.',
+    ],
+    relatedWidgets: ['Card', 'Card.outlined', 'Container', 'Material'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/Card-class.html',
+    tags: ['card', 'filled', 'surface'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -3395,6 +4137,16 @@ Card.filled(
     description:
         'A Material 3 tonal variant of FilledButton. Uses the secondary container colour — less prominent than a full filled button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a medium-high emphasis action using the secondary container color, between a filled button and an outlined one. Use FilledButton for the single most prominent action.',
+    commonPitfalls: [
+      'A null onPressed disables it rather than just removing the handler.',
+      'Its tonal color is subtle on some themes; verify contrast for accessibility.',
+    ],
+    relatedWidgets: ['FilledButton', 'ElevatedButton', 'OutlinedButton'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/FilledButton-class.html',
+    tags: ['button', 'tonal', 'filled'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -3432,6 +4184,17 @@ FilledButton.tonal(
     description:
         'An inherited widget that applies IconButtonThemeData to all IconButton widgets in its subtree — useful for bulk styling icon buttons.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To apply a shared style to all IconButton widgets in a subtree. Style a single button inline when only one should differ.',
+    commonPitfalls: [
+      'It requires an IconButtonThemeData with a ButtonStyle; partial styles fall back to defaults.',
+      'Only descendant icon buttons are affected.',
+    ],
+    relatedWidgets: ['IconButton', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/IconButtonTheme-class.html',
+    tags: ['theme', 'iconbutton', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => IconButtonTheme(
       data: IconButtonThemeData(
         style: IconButton.styleFrom(
@@ -3476,6 +4239,21 @@ IconButtonTheme(
     description:
         'An inherited widget that applies ProgressIndicatorThemeData to LinearProgressIndicator and CircularProgressIndicator in its subtree.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set colors and track styling for all progress indicators in a subtree. Use it instead of theming each indicator individually.',
+    commonPitfalls: [
+      'It affects both linear and circular indicators in the subtree, which may not be intended.',
+      'Inline color properties on an indicator override the theme.',
+    ],
+    relatedWidgets: [
+      'CircularProgressIndicator',
+      'LinearProgressIndicator',
+      'Theme',
+    ],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ProgressIndicatorTheme-class.html',
+    tags: ['theme', 'progress', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ProgressIndicatorTheme(
       data: const ProgressIndicatorThemeData(
         color: Colors.teal,
@@ -3521,6 +4299,16 @@ ProgressIndicatorTheme(
     description:
         'An inherited widget that applies TooltipThemeData to all Tooltip widgets in its subtree — customise decoration, text style, wait duration and more.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set decoration, text style and wait/show durations for all Tooltip widgets in a subtree. Use it instead of configuring each tooltip.',
+    commonPitfalls: [
+      'Per-tooltip properties override the theme values.',
+      'It only affects descendant tooltips, so place it high enough in the tree.',
+    ],
+    relatedWidgets: ['Tooltip', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/TooltipTheme-class.html',
+    tags: ['theme', 'tooltip', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => TooltipTheme(
       data: TooltipThemeData(
         decoration: BoxDecoration(
@@ -3660,6 +4448,17 @@ final List<WidgetInfo> materialWidgetsExtra4 = [
     description:
         'A DataTable that splits rows across multiple pages and provides built-in page-navigation controls.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For tabular data too large to render at once, splitting rows into pages with built-in navigation. Use DataTable for small, fully materialized tables.',
+    commonPitfalls: [
+      'You must implement a DataTableSource that supplies rows lazily.',
+      'rowsPerPage must be one of availableRowsPerPage or it asserts.',
+    ],
+    relatedWidgets: ['DataTable', 'ListView'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/PaginatedDataTable-class.html',
+    tags: ['table', 'pagination', 'data'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _PaginatedDataTableSample(),
     codeSnippet: '''
 PaginatedDataTable(
@@ -3675,64 +4474,22 @@ PaginatedDataTable(
 ''',
   ),
 
-  // 2 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'InteractiveViewer',
-    description:
-        'A widget that lets the user pan, pinch-to-zoom, and rotate its child. Works with any widget, not just images.',
-    category: WidgetCategory.material,
-    builder: (context) => SizedBox(
-      height: 300,
-      child: InteractiveViewer(
-        boundaryMargin: const EdgeInsets.all(20),
-        minScale: 0.5,
-        maxScale: 4.0,
-        child: GridView.count(
-          crossAxisCount: 4,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: List.generate(
-            16,
-            (i) => Container(
-              margin: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                color: Colors.primaries[i % Colors.primaries.length].withValues(
-                  alpha: 0.7,
-                ),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Center(
-                child: Text(
-                  '$i',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-    codeSnippet: '''
-InteractiveViewer(
-  boundaryMargin: const EdgeInsets.all(20),
-  minScale: 0.5,
-  maxScale: 4.0,
-  child: Image.network(
-    'https://example.com/large-image.jpg',
-  ),
-)
-''',
-  ),
-
   // 3 ─────────────────────────────────────────
   WidgetInfo(
     name: 'AppBarTheme',
     description:
         'An inherited widget that applies AppBarThemeData globally — background colour, elevation, title text style, icon themes and more.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set background color, elevation, title style and icon themes for all AppBars in a subtree (usually app-wide). Style a single AppBar inline for exceptions.',
+    commonPitfalls: [
+      'Per-AppBar properties override the theme.',
+      'Material 3 changed several AppBar defaults, so values that worked in M2 may need revisiting.',
+    ],
+    relatedWidgets: ['AppBar', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/AppBarTheme-class.html',
+    tags: ['theme', 'appbar', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => AppBarTheme(
       backgroundColor: Colors.deepPurple,
       foregroundColor: Colors.white,
@@ -3773,6 +4530,17 @@ AppBarTheme(
     description:
         'An inherited widget that applies NavigationBarThemeData to all NavigationBar widgets — indicator colour, label style, icon theme and height.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set indicator color, label behavior, icon theme and height for all NavigationBar widgets in a subtree. Use it instead of styling each bar.',
+    commonPitfalls: [
+      'It only affects descendant NavigationBars.',
+      'Label visibility is controlled via labelBehavior; setting it incorrectly hides labels unexpectedly.',
+    ],
+    relatedWidgets: ['NavigationBar', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/NavigationBarTheme-class.html',
+    tags: ['theme', 'navigation', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _NavigationBarThemeSample(),
     codeSnippet: '''
 NavigationBarTheme(
@@ -3801,6 +4569,17 @@ NavigationBarTheme(
     description:
         'An inherited widget that applies ElevatedButtonThemeData to all ElevatedButton widgets in its subtree — style, shape, colours and text style.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To apply a shared ButtonStyle to all ElevatedButton widgets in a subtree. Style a single button inline when only one should differ.',
+    commonPitfalls: [
+      'It needs an ElevatedButtonThemeData wrapping a ButtonStyle.',
+      'Inline style on a button overrides the theme.',
+    ],
+    relatedWidgets: ['ElevatedButton', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ElevatedButtonTheme-class.html',
+    tags: ['theme', 'button', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ElevatedButtonTheme(
       data: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -3851,6 +4630,17 @@ ElevatedButtonTheme(
     description:
         'An inherited widget that applies SnackBarThemeData — background, text style, action button style and behaviour — to all SnackBars.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set background, text style, action style and behavior for all SnackBars in a subtree. Use it for app-wide snackbar consistency.',
+    commonPitfalls: [
+      'behavior (fixed vs floating) changes layout and margins; mismatched margin only applies to floating.',
+      'Per-SnackBar properties override the theme.',
+    ],
+    relatedWidgets: ['SnackBar', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/SnackBarTheme-class.html',
+    tags: ['theme', 'snackbar', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _SnackBarThemeSample(),
     codeSnippet: '''
 SnackBarTheme(
@@ -3884,6 +4674,16 @@ SnackBarTheme(
     description:
         'An inherited widget that applies DialogThemeData to all dialog widgets — shape, background colour, title style, and content style.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set shape, background color and text styles for all dialogs in a subtree. Use it instead of styling each AlertDialog or SimpleDialog.',
+    commonPitfalls: [
+      'It affects AlertDialog, SimpleDialog and similar; the impact may be broader than expected.',
+      'Inline dialog properties override the theme.',
+    ],
+    relatedWidgets: ['AlertDialog', 'SimpleDialog', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/DialogTheme-class.html',
+    tags: ['theme', 'dialog', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _DialogThemeSample(),
     codeSnippet: '''
 DialogTheme(
@@ -3922,6 +4722,17 @@ DialogTheme(
     description:
         'An inherited widget that applies PopupMenuThemeData to all PopupMenuButton instances — colour, shape, text style and elevation.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set color, shape, elevation and text style for all PopupMenuButton menus in a subtree. Use it instead of styling each menu.',
+    commonPitfalls: [
+      'It styles the menu surface, not the trigger button itself.',
+      'Only descendant popup menus are affected.',
+    ],
+    relatedWidgets: ['PopupMenuButton', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/PopupMenuTheme-class.html',
+    tags: ['theme', 'menu', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => PopupMenuTheme(
       data: PopupMenuThemeData(
         color: Colors.blueGrey.shade900,
@@ -3969,6 +4780,16 @@ PopupMenuTheme(
     description:
         'An inherited widget that applies DrawerThemeData to all Drawer and NavigationDrawer widgets — width, background, shape and elevation.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set width, background, shape and elevation for all Drawer and NavigationDrawer widgets in a subtree. Use it for consistent drawer styling.',
+    commonPitfalls: [
+      'It affects both Drawer and NavigationDrawer, which may be more than intended.',
+      'Inline drawer properties override the theme.',
+    ],
+    relatedWidgets: ['Drawer', 'NavigationDrawer', 'Theme'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/DrawerTheme-class.html',
+    tags: ['theme', 'drawer', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _DrawerThemeSample(),
     codeSnippet: '''
 DrawerTheme(
@@ -3998,6 +4819,17 @@ DrawerTheme(
     description:
         'An inherited widget that applies NavigationRailThemeData to all NavigationRail widgets — background, indicator colour, label type and selected/unselected styles.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To set background, indicator color, label type and selected/unselected styles for all NavigationRail widgets in a subtree.',
+    commonPitfalls: [
+      'labelType controls whether labels show; the wrong value hides them.',
+      'Only descendant rails are affected.',
+    ],
+    relatedWidgets: ['NavigationRail', 'Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/NavigationRailTheme-class.html',
+    tags: ['theme', 'navigation', 'styling'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _NavigationRailThemeSample(),
     codeSnippet: '''
 NavigationRailTheme(
@@ -4313,6 +5145,16 @@ final List<WidgetInfo> materialWidgetsExtra5 = [
     description:
         'A page that displays licenses for software used by the application.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show the standard scrollable page listing open-source licenses. Use showLicensePage to push it, or AboutDialog which links to it.',
+    commonPitfalls: [
+      'Push it as a route (showLicensePage or MaterialPageRoute), not as an inline widget.',
+      'Custom licenses must be registered via LicenseRegistry to appear.',
+    ],
+    relatedWidgets: ['AboutDialog', 'AboutListTile'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/LicensePage-class.html',
+    tags: ['license', 'page', 'about'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => ElevatedButton(
       onPressed: () {
         showLicensePage(
@@ -4337,6 +5179,17 @@ showLicensePage(
     name: 'MenuItemButton',
     description: 'A button meant to be used in a menu.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a terminal, tappable item inside a MenuBar or MenuAnchor menu. Use SubmenuButton when the item should open a nested menu.',
+    commonPitfalls: [
+      'It is designed for menus; outside a MenuAnchor/MenuBar its layout and focus behave oddly.',
+      'A null onPressed disables it.',
+    ],
+    relatedWidgets: ['MenuAnchor', 'MenuBar'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/MenuItemButton-class.html',
+    tags: ['menu', 'item', 'button'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => MenuAnchor(
       builder: (context, controller, child) => ElevatedButton(
         onPressed: () {
@@ -4370,52 +5223,22 @@ MenuItemButton(
 ''',
   ),
 
-  // 3 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'AnimatedIcon',
-    description: 'An icon that can animate between two states.',
-    category: WidgetCategory.material,
-    builder: (context) => const _AnimatedIconSample(),
-    codeSnippet: '''
-AnimatedIcon(
-  icon: AnimatedIcons.menu_arrow,
-  progress: _animationController,
-)
-''',
-  ),
-
-  // 4 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'Placeholder',
-    description:
-        'A widget that draws a box that represents where other widgets will one day be added.',
-    category: WidgetCategory.material,
-    builder: (context) => const Center(
-      child: SizedBox(
-        height: 100,
-        width: 100,
-        child: Placeholder(
-          color: Colors.blue,
-          strokeWidth: 2,
-          fallbackHeight: 100,
-          fallbackWidth: 100,
-        ),
-      ),
-    ),
-    codeSnippet: '''
-Placeholder(
-  color: Colors.blue,
-  strokeWidth: 2,
-)
-''',
-  ),
-
   // 5 ─────────────────────────────────────────
   WidgetInfo(
     name: 'ExpandIcon',
     description:
         'A widget that rotates to indicate that a section is expanded or collapsed.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show a rotating chevron that indicates expanded/collapsed state in custom expandable UI. ExpansionTile already includes one for the common case.',
+    commonPitfalls: [
+      'It does not manage state; track isExpanded yourself and pass it in.',
+      'It only renders the icon and rotation, not the expansion behavior.',
+    ],
+    relatedWidgets: ['ExpansionTile', 'ExpansionPanel', 'IconButton'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/ExpandIcon-class.html',
+    tags: ['icon', 'expand', 'toggle'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => const _ExpandIconSample(),
     codeSnippet: '''
 ExpandIcon(
@@ -4429,44 +5252,22 @@ ExpandIcon(
 ''',
   ),
 
-  // 6 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'GridTile',
-    description: 'A tile for a grid view with an optional header and footer.',
-    category: WidgetCategory.material,
-    builder: (context) => GridTile(
-      header: Container(
-        padding: const EdgeInsets.all(4),
-        color: Colors.black45,
-        child: const Text('Header', style: TextStyle(color: Colors.white)),
-      ),
-      footer: Container(
-        padding: const EdgeInsets.all(4),
-        color: Colors.black45,
-        child: const Text('Footer', style: TextStyle(color: Colors.white)),
-      ),
-      child: Image.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
-        fit: BoxFit.cover,
-      ),
-    ),
-    codeSnippet: '''
-GridTile(
-  header: GridTileBar(
-    backgroundColor: Colors.black45,
-    title: Text('Header'),
-  ),
-  child: Image.network(...),
-)
-''',
-  ),
-
   // 7 ─────────────────────────────────────────
   WidgetInfo(
     name: 'GridTileBar',
     description:
         'A Material Design grid tile bar with a leading icon, a title, a subtitle, and a trailing icon.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As a header or footer overlay on a GridTile, holding a title, subtitle and leading/trailing widgets. Use it together with GridTile.',
+    commonPitfalls: [
+      'It is meant to overlay a tile (often via GridTile\'s header/footer), not stand alone.',
+      'Long titles are clipped rather than wrapped within the bar.',
+    ],
+    relatedWidgets: ['GridTile', 'ListTile'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/GridTileBar-class.html',
+    tags: ['grid', 'tile', 'bar'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => Container(
       height: 60,
       decoration: const BoxDecoration(color: Colors.black45),
@@ -4487,66 +5288,23 @@ GridTileBar(
 ''',
   ),
 
-  // 8 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'GridPaper',
-    description: 'A widget that draws a grid in its background.',
-    category: WidgetCategory.material,
-    builder: (context) => const SizedBox(
-      height: 200,
-      width: 200,
-      child: GridPaper(
-        color: Colors.blue,
-        divisions: 2,
-        subdivisions: 5,
-        interval: 100,
-        child: Center(child: Text('Grid Paper')),
-      ),
-    ),
-    codeSnippet: '''
-GridPaper(
-  color: Colors.blue,
-  divisions: 2,
-  subdivisions: 5,
-  interval: 100,
-)
-''',
-  ),
-
-  // 9 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'Theme',
-    description:
-        'Applies a visual theme of a material design theme to descendant widgets.',
-    category: WidgetCategory.material,
-    builder: (context) => Theme(
-      data: ThemeData(
-        primarySwatch: Colors.orange,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
-        ),
-      ),
-      child: Column(
-        children: [
-          const Text('This button is themed orange:'),
-          ElevatedButton(onPressed: () {}, child: const Text('Button')),
-        ],
-      ),
-    ),
-    codeSnippet: '''
-Theme(
-  data: ThemeData(primarySwatch: Colors.orange),
-  child: widget,
-)
-''',
-  ),
-
   // 10 ────────────────────────────────────────
   WidgetInfo(
     name: 'FlexibleSpaceBar',
     description:
         'The part of a material design app bar that expands, collapses, and stretches.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As the collapsing/expanding content of a SliverAppBar\'s flexibleSpace, often with a background image and title. Use it only inside a SliverAppBar.',
+    commonPitfalls: [
+      'It must be the flexibleSpace of a SliverAppBar to collapse correctly.',
+      'The title can overlap the background image; manage collapseMode and title padding.',
+    ],
+    relatedWidgets: ['AppBar', 'Image'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/FlexibleSpaceBar-class.html',
+    tags: ['appbar', 'sliver', 'collapse'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => SizedBox(
       height: 150,
       child: CustomScrollView(
@@ -4578,56 +5336,6 @@ SliverAppBar(
 ];
 
 // ─── Stateful helpers for batch 5 ────────────────────────────────────────────
-
-class _AnimatedIconSample extends StatefulWidget {
-  const _AnimatedIconSample();
-
-  @override
-  State<_AnimatedIconSample> createState() => _AnimatedIconSampleState();
-}
-
-class _AnimatedIconSampleState extends State<_AnimatedIconSample>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: _controller,
-          size: 64,
-        ),
-        ElevatedButton(
-          onPressed: () {
-            if (_controller.status == AnimationStatus.completed) {
-              _controller.reverse();
-            } else {
-              _controller.forward();
-            }
-          },
-          child: const Text('Toggle Animation'),
-        ),
-      ],
-    );
-  }
-}
 
 class _ExpandIconSample extends StatefulWidget {
   const _ExpandIconSample();
@@ -4672,29 +5380,22 @@ class _ExpandIconSampleState extends State<_ExpandIconSample> {
 // ─────────────────────────────────────────────────────────────────────────────
 
 final List<WidgetInfo> materialWidgetsExtra6 = [
-  // 1 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'InkWell',
-    description:
-        'A rectangular area of a Material that responds to touch by splashing.',
-    category: WidgetCategory.material,
-    builder: (context) => const _InkWellSample(),
-    codeSnippet: '''
-InkWell(
-  onTap: () {},
-  child: const Padding(
-    padding: EdgeInsets.all(12.0),
-    child: Text('Tap me!'),
-  ),
-)
-''',
-  ),
-
   // 2 ─────────────────────────────────────────
   WidgetInfo(
     name: 'DateRangePickerDialog',
     description: 'A Material Design date range picker dialog.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To let users pick a start and end date as a range. For a single date use showDatePicker, and prefer showDateRangePicker over building this dialog directly.',
+    commonPitfalls: [
+      'Prefer showDateRangePicker which wraps this dialog with correct routing.',
+      'firstDate, lastDate and the initial range must be consistent or it asserts.',
+    ],
+    relatedWidgets: ['DatePicker', 'TimePicker'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/DateRangePickerDialog-class.html',
+    tags: ['date', 'range', 'picker'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _DateRangePickerSample(),
     codeSnippet: '''
 showDateRangePicker(
@@ -4710,6 +5411,17 @@ showDateRangePicker(
     name: 'TimePickerDialog',
     description: 'A Material Design time picker dialog.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To let users choose a time of day. Prefer showTimePicker which presents this dialog with correct routing and returns the result.',
+    commonPitfalls: [
+      'Prefer showTimePicker over constructing the dialog directly.',
+      'The 12/24-hour format follows MediaQuery\'s alwaysUse24HourFormat; test both.',
+    ],
+    relatedWidgets: ['TimePicker', 'DatePicker'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/TimePickerDialog-class.html',
+    tags: ['time', 'picker', 'dialog'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _TimePickerSample(),
     codeSnippet: '''
 showTimePicker(
@@ -4719,39 +5431,23 @@ showTimePicker(
 ''',
   ),
 
-  // 4 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'SelectionArea',
-    description:
-        'A widget that enables text selection for its descendant widgets.',
-    category: WidgetCategory.material,
-    builder: (context) => const SelectionArea(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('You can select this text.'),
-          SizedBox(height: 10),
-          Text('And this text too!'),
-        ],
-      ),
-    ),
-    codeSnippet: '''
-SelectionArea(
-  child: Column(
-    children: [
-      Text('Selectable text'),
-    ],
-  ),
-)
-''',
-  ),
-
   // 5 ─────────────────────────────────────────
   WidgetInfo(
     name: 'AnimatedTheme',
     description:
         'Transition between a given theme and its new value over a specific duration.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To smoothly animate between two ThemeData values over a duration, e.g. when toggling dark mode. MaterialApp already animates its top-level theme for you.',
+    commonPitfalls: [
+      'Not all theme properties interpolate cleanly; some snap rather than tween.',
+      'Wrapping the whole app redundantly with MaterialApp\'s own animation can double-animate.',
+    ],
+    relatedWidgets: ['Theme'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/AnimatedTheme-class.html',
+    tags: ['theme', 'animation', 'transition'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _AnimatedThemeSample(),
     codeSnippet: '''
 AnimatedTheme(
@@ -4768,6 +5464,17 @@ AnimatedTheme(
     description:
         'A widget that displays a row of dots to indicate which page is currently selected in a TabBarView.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To show a row of dots indicating the current page in a TabBarView, as a lightweight alternative to a TabBar.',
+    commonPitfalls: [
+      'It needs a TabController, shared with the TabBarView, or it cannot track the page.',
+      'With many tabs the dots become hard to distinguish; prefer a TabBar for large counts.',
+    ],
+    relatedWidgets: ['Tooltip'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/TabPageSelector-class.html',
+    tags: ['tabs', 'indicator', 'dots'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _TabPageSelectorSample(),
     codeSnippet: '''
 TabPageSelector(
@@ -4781,6 +5488,17 @@ TabPageSelector(
     name: 'CheckedPopupMenuItem',
     description: 'A menu item with a checkmark.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a popup menu item that displays a checkmark to reflect a toggled state, inside a PopupMenuButton. Use a plain PopupMenuItem for non-toggle actions.',
+    commonPitfalls: [
+      'Pass checked to reflect state; the item does not toggle itself, you update state in onSelected.',
+      'It is intended for use within PopupMenuButton\'s itemBuilder.',
+    ],
+    relatedWidgets: ['PopupMenuButton', 'Checkbox'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/CheckedPopupMenuItem-class.html',
+    tags: ['menu', 'checkbox', 'popup'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _CheckedPopupMenuItemSample(),
     codeSnippet: '''
 CheckedPopupMenuItem<int>(
@@ -4796,6 +5514,16 @@ CheckedPopupMenuItem<int>(
     name: 'DrawerHeader',
     description: 'The top part of a Material Design drawer.',
     category: WidgetCategory.material,
+    whenToUse:
+        'As a simple branded header at the top of a Drawer\'s children. Use UserAccountsDrawerHeader when you need to display account details.',
+    commonPitfalls: [
+      'It has a fixed default height; tall content gets clipped.',
+      'It expects to be the first child of a Drawer\'s ListView for correct layout.',
+    ],
+    relatedWidgets: ['Drawer', 'UserAccountsDrawerHeader', 'NavigationDrawer'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/DrawerHeader-class.html',
+    tags: ['drawer', 'header', 'branding'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) => SizedBox(
       height: 200,
       child: const Drawer(
@@ -4826,6 +5554,22 @@ DrawerHeader(
     description:
         'A low-level widget for building Material buttons from scratch.',
     category: WidgetCategory.material,
+    whenToUse:
+        'Only when you need full control to build a custom Material button from scratch. Prefer ElevatedButton, FilledButton, OutlinedButton or TextButton for standard styling.',
+    commonPitfalls: [
+      'It has no default Material 3 styling; you must supply colors, shape and elevation yourself.',
+      'Easy to miss accessibility defaults (min tap size, semantics) that higher-level buttons provide.',
+    ],
+    relatedWidgets: [
+      'ElevatedButton',
+      'TextButton',
+      'OutlinedButton',
+      'Material',
+    ],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/RawMaterialButton-class.html',
+    tags: ['button', 'custom', 'low-level'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => RawMaterialButton(
       onPressed: () {},
       elevation: 2.0,
@@ -4849,6 +5593,17 @@ RawMaterialButton(
     name: 'DropdownButtonFormField',
     description: 'A DropdownButton integrated with a FormField.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To use a dropdown selector inside a Form with built-in validation and error display. Use DropdownButton when you do not need form integration.',
+    commonPitfalls: [
+      'value must match one of the items\' values exactly or it asserts.',
+      'Validation runs through the Form; place it inside a Form and trigger validate() to see errors.',
+    ],
+    relatedWidgets: ['DropdownButton', 'DropdownMenu', 'Form', 'FormField'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/DropdownButtonFormField-class.html',
+    tags: ['dropdown', 'form', 'validation'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => DropdownButtonFormField<String>(
       decoration: const InputDecoration(labelText: 'Select Gender'),
       items: ['Male', 'Female', 'Other']
@@ -4867,28 +5622,6 @@ DropdownButtonFormField<String>(
 ];
 
 // ─── Stateful helpers for batch 6 ────────────────────────────────────────────
-
-class _InkWellSample extends StatefulWidget {
-  const _InkWellSample();
-
-  @override
-  State<_InkWellSample> createState() => _InkWellSampleState();
-}
-
-class _InkWellSampleState extends State<_InkWellSample> {
-  int _count = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => setState(() => _count++),
-      child: Container(
-        padding: const EdgeInsets.all(24),
-        child: Text('Tap Count: $_count', style: const TextStyle(fontSize: 18)),
-      ),
-    );
-  }
-}
 
 class _DateRangePickerSample extends StatelessWidget {
   const _DateRangePickerSample();
@@ -5047,6 +5780,16 @@ final List<WidgetInfo> materialWidgetsAuditBatch1 = [
     description:
         'A Material 3 carousel widget that presents a scrollable list of items.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a Material 3 scrollable, snapping carousel of items. Use a ListView for a plain horizontal list without the carousel layout effects.',
+    commonPitfalls: [
+      'You must provide item extents (itemExtent or the weighted constructor); omitting sizing breaks layout.',
+      'It is relatively new, so verify it exists in your Flutter version.',
+    ],
+    relatedWidgets: ['ListView', 'Card'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/CarouselView-class.html',
+    tags: ['carousel', 'scroll', 'material3'],
+    difficulty: WidgetDifficulty.intermediate,
     builder: (context) => const _CarouselViewSample(),
     codeSnippet: '''
 CarouselView(
@@ -5069,6 +5812,17 @@ CarouselView(
     name: 'ElevatedButton',
     description: 'A Material Design elevated button.',
     category: WidgetCategory.material,
+    whenToUse:
+        'For a high-emphasis action that should stand out with elevation. In Material 3 consider FilledButton for the single most prominent action.',
+    commonPitfalls: [
+      'A null onPressed disables the button rather than just removing the handler.',
+      'Using many elevated buttons together dilutes their emphasis.',
+    ],
+    relatedWidgets: ['FilledButton', 'OutlinedButton', 'TextButton'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ElevatedButton-class.html',
+    tags: ['button', 'elevated', 'action'],
+    difficulty: WidgetDifficulty.beginner,
     builder: (context) =>
         ElevatedButton(onPressed: () {}, child: const Text('Elevated Button')),
     codeSnippet: '''
@@ -5079,57 +5833,28 @@ ElevatedButton(
 ''',
   ),
 
-  // 3 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'FilledButton',
-    description: 'A Material Design filled button.',
-    category: WidgetCategory.material,
-    builder: (context) =>
-        FilledButton(onPressed: () {}, child: const Text('Filled Button')),
-    codeSnippet: '''
-FilledButton(
-  onPressed: () {},
-  child: const Text('Filled Button'),
-)
-''',
-  ),
-
-  // 4 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'OutlinedButton',
-    description: 'A Material Design outlined button.',
-    category: WidgetCategory.material,
-    builder: (context) =>
-        OutlinedButton(onPressed: () {}, child: const Text('Outlined Button')),
-    codeSnippet: '''
-OutlinedButton(
-  onPressed: () {},
-  child: const Text('Outlined Button'),
-)
-''',
-  ),
-
-  // 5 ─────────────────────────────────────────
-  WidgetInfo(
-    name: 'TextButton',
-    description: 'A Material Design text button.',
-    category: WidgetCategory.material,
-    builder: (context) =>
-        TextButton(onPressed: () {}, child: const Text('Text Button')),
-    codeSnippet: '''
-TextButton(
-  onPressed: () {},
-  child: const Text('Text Button'),
-)
-''',
-  ),
-
   // 6 ─────────────────────────────────────────
   WidgetInfo(
     name: 'ExpansionPanel',
     description: 'A panel used within an ExpansionPanelList.',
     category: WidgetCategory.material,
-    builder: (context) => const _ExpansionPanelSample(),
+    whenToUse:
+        'As an individual panel within an ExpansionPanelList. It is not used standalone; for a single collapsible row use ExpansionTile.',
+    commonPitfalls: [
+      'It only works inside an ExpansionPanelList, which manages its expansion.',
+      'isExpanded is controlled externally; you must update it in the list\'s expansionCallback.',
+    ],
+    relatedWidgets: ['ExpansionPanelList', 'ExpansionTile'],
+    docsUrl:
+        'https://api.flutter.dev/flutter/material/ExpansionPanel-class.html',
+    tags: ['expand', 'panel', 'accordion'],
+    difficulty: WidgetDifficulty.intermediate,
+    // ExpansionPanelList needs unbounded vertical space, so wrap it in a
+    // bounded scroll view for the preview.
+    builder: (context) => const SizedBox(
+      height: 220,
+      child: SingleChildScrollView(child: _ExpansionPanelSample()),
+    ),
     codeSnippet: '''
 ExpansionPanelList(
   children: [
@@ -5148,6 +5873,16 @@ ExpansionPanelList(
     name: 'FormField',
     description: 'A single form field that maintains state and validation.',
     category: WidgetCategory.material,
+    whenToUse:
+        'To build a custom form input with managed state, validation and saving, inside a Form. Use the ready-made TextFormField/DropdownButtonFormField for common cases.',
+    commonPitfalls: [
+      'Wire onSaved, validator and the builder\'s state correctly; forgetting to call state.didChange leaves the value stale.',
+      'It must be a descendant of a Form to participate in validate()/save().',
+    ],
+    relatedWidgets: ['Form', 'TextField', 'DropdownMenu'],
+    docsUrl: 'https://api.flutter.dev/flutter/material/FormField-class.html',
+    tags: ['form', 'field', 'validation'],
+    difficulty: WidgetDifficulty.advanced,
     builder: (context) => const _FormFieldSample(),
     codeSnippet: '''
 FormField<String>(

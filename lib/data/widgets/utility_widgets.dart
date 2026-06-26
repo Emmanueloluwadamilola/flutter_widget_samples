@@ -260,7 +260,10 @@ ErrorWidget('Custom Error View')
         height: 100,
         color: Colors.blue,
         child: const Center(
-          child: Text('Repaint Boundary', style: TextStyle(color: Colors.white)),
+          child: Text(
+            'Repaint Boundary',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     ),
@@ -466,7 +469,8 @@ DefaultAssetBundle.of(context).loadString('assets/config.json');
   ),
   WidgetInfo(
     name: 'Scrollable',
-    description: 'A low-level widget that implement the interaction model for a scrollable widget.',
+    description:
+        'A low-level widget that implement the interaction model for a scrollable widget.',
     category: WidgetCategory.utility,
     builder: (context) => const _ScrollableSample(),
     codeSnippet: '''
@@ -512,7 +516,9 @@ class _AssetBundleSample extends StatelessWidget {
               // In a real app, you would load a file like this:
               // String data = await DefaultAssetBundle.of(context).loadString('assets/data.json');
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('AssetBundle interaction demonstrated.')),
+                const SnackBar(
+                  content: Text('AssetBundle interaction demonstrated.'),
+                ),
               );
             },
             child: const Text('Simulate Load'),
@@ -545,7 +551,9 @@ class _ScrollableSampleState extends State<_ScrollableSample> {
       height: 300,
       child: Column(
         children: [
-          Text('Offset: \${_controller.hasClients ? _controller.offset.round() : 0}'),
+          Text(
+            'Offset: \${_controller.hasClients ? _controller.offset.round() : 0}',
+          ),
           Expanded(
             child: Scrollable(
               controller: _controller,
@@ -555,14 +563,11 @@ class _ScrollableSampleState extends State<_ScrollableSample> {
                   offset: position,
                   slivers: [
                     SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return ListTile(
-                            title: Text('Low-level Scrollable Item \$index'),
-                          );
-                        },
-                        childCount: 50,
-                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        return ListTile(
+                          title: Text('Low-level Scrollable Item \$index'),
+                        );
+                      }, childCount: 50),
                     ),
                   ],
                 );

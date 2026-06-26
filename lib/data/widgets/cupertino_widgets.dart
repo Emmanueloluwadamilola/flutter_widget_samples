@@ -746,22 +746,29 @@ class _CupertinoSliverRefreshControlSampleState
     category: WidgetCategory.cupertino,
     builder: (context) => Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const Text('Toolbar is typically shown on selection, here is a demo:'),
         const SizedBox(height: 20),
-        CupertinoTextSelectionToolbar(
-          anchorAbove: const Offset(150, 50),
-          anchorBelow: const Offset(150, 100),
-          children: <Widget>[
-            CupertinoTextSelectionToolbarButton(
-              onPressed: () {},
-              child: const Text('Copy'),
-            ),
-            CupertinoTextSelectionToolbarButton(
-              onPressed: () {},
-              child: const Text('Paste'),
-            ),
-          ],
+        // The toolbar uses a custom layout that wants unbounded space; a fixed
+        // box gives it finite constraints for the preview.
+        SizedBox(
+          width: 250,
+          height: 60,
+          child: CupertinoTextSelectionToolbar(
+            anchorAbove: const Offset(150, 50),
+            anchorBelow: const Offset(150, 100),
+            children: <Widget>[
+              CupertinoTextSelectionToolbarButton(
+                onPressed: () {},
+                child: const Text('Copy'),
+              ),
+              CupertinoTextSelectionToolbarButton(
+                onPressed: () {},
+                child: const Text('Paste'),
+              ),
+            ],
+          ),
         ),
       ],
     ),

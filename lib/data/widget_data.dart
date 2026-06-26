@@ -50,4 +50,32 @@ class WidgetData {
   static List<WidgetInfo> getWidgetsByCategory(WidgetCategory category) {
     return allWidgets.where((w) => w.category == category).toList();
   }
+
+  /// Fast lookup of an entry by its (unique) [WidgetInfo.name].
+  static final Map<String, WidgetInfo> _byName = {
+    for (final w in allWidgets) w.name: w,
+  };
+
+  /// Returns the entry with the given [name], or null if it does not exist.
+  static WidgetInfo? getByName(String name) => _byName[name];
+
+  /// Returns entries whose name, description, or tags match [query].
+  /// An empty query returns an empty list.
+  static List<WidgetInfo> search(String query) {
+    final q = query.trim().toLowerCase();
+    if (q.isEmpty) return const [];
+    return allWidgets.where((w) => w.searchText.contains(q)).toList()
+      ..sort((a, b) {
+        // Prefer name-prefix matches, then name matches, then the rest.
+        int rank(WidgetInfo w) {
+          final name = w.name.toLowerCase();
+          if (name.startsWith(q)) return 0;
+          if (name.contains(q)) return 1;
+          return 2;
+        }
+
+        final byRank = rank(a).compareTo(rank(b));
+        return byRank != 0 ? byRank : a.name.compareTo(b.name);
+      });
+  }
 }
