@@ -33,8 +33,7 @@ class HomeScreen extends StatelessWidget {
     final prefs = CatalogScope.of(context);
     final favorites = prefs.favorites
         .map(WidgetData.getByName)
-        .whereType<WidgetInfo>()
-        .toList();
+        .whereType<WidgetInfo>().toList();
     final recents = prefs.recents
         .map(WidgetData.getByName)
         .whereType<WidgetInfo>()
