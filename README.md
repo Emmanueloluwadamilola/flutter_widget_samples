@@ -3,6 +3,7 @@
 An interactive, premium, and fully responsive catalog of **300+ Flutter widgets**. Every entry in the catalog contains a **live, running sample**, a copy-paste **code snippet**, and practical teaching notes—such as *when to use it*, *common pitfalls*, *related widgets*, and a direct link to the official Flutter API documentation.
 
 🔗 **Live demo:** [emmanueloluwadamilola.github.io/flutter_widget_samples](https://emmanueloluwadamilola.github.io/flutter_widget_samples/)
+
 📦 **Repository:** [github.com/Emmanueloluwadamilola/flutter_widget_samples](https://github.com/Emmanueloluwadamilola/flutter_widget_samples)
 
 The project is designed to cater to developers of all skill levels:
