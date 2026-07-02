@@ -2,6 +2,9 @@
 
 An interactive, premium, and fully responsive catalog of **300+ Flutter widgets**. Every entry in the catalog contains a **live, running sample**, a copy-paste **code snippet**, and practical teaching notes—such as *when to use it*, *common pitfalls*, *related widgets*, and a direct link to the official Flutter API documentation.
 
+🔗 **Live demo:** [emmanueloluwadamilola.github.io/flutter_widget_samples](https://emmanueloluwadamilola.github.io/flutter_widget_samples/)
+📦 **Repository:** [github.com/Emmanueloluwadamilola/flutter_widget_samples](https://github.com/Emmanueloluwadamilola/flutter_widget_samples)
+
 The project is designed to cater to developers of all skill levels:
 - **Experienced Developers** get a fast, search-friendly reference, copy-pasteable snippets, navigation chips to related widgets, and a persistent favorites shelf.
 - **Learners & Newcomers** get a guided tour with difficulty badges (beginner, intermediate, advanced), "when to use it" decision guidance, and warning callouts for common pitfalls.
@@ -44,9 +47,15 @@ All widget samples are defined as plain data files inside the [lib/data/widgets/
 
 ## 🛠️ Getting Started
 
-To get the app running on your machine, clone the repository and run the following:
+Prefer to just browse? Open the **[live demo](https://emmanueloluwadamilola.github.io/flutter_widget_samples/)** — no setup needed.
+
+To run the app locally, clone the repository and run the following:
 
 ```bash
+# Clone the repository
+git clone https://github.com/Emmanueloluwadamilola/flutter_widget_samples.git
+cd flutter_widget_samples
+
 # Retrieve dependencies
 flutter pub get
 
