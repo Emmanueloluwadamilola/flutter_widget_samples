@@ -1,11 +1,11 @@
 {
-    "name": "flutter_widget_samples",
-    "short_name": "flutter_widget_samples",
+    "name": "Flutter Widget Catalog",
+    "short_name": "Widget Catalog",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "An interactive catalog of 300+ Flutter widgets with live samples, copy-paste snippets, and teaching notes.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
