@@ -26,12 +26,13 @@ class CategoryScreen extends StatelessWidget {
                     if (wide) {
                       return GridView.builder(
                         padding: const EdgeInsets.all(16),
-                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 400,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          childAspectRatio: 1.5,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 400,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12,
+                              childAspectRatio: 1.5,
+                            ),
                         itemCount: widgets.length,
                         itemBuilder: (context, index) {
                           final widgetInfo = widgets[index];
@@ -42,8 +43,9 @@ class CategoryScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        WidgetDetailScreen(widgetInfo: widgetInfo),
+                                    builder: (context) => WidgetDetailScreen(
+                                      widgetInfo: widgetInfo,
+                                    ),
                                   ),
                                 );
                               },
@@ -53,7 +55,8 @@ class CategoryScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
                                           child: Text(
@@ -65,14 +68,18 @@ class CategoryScreen extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
-                                        DifficultyBadge(difficulty: widgetInfo.difficulty),
+                                        DifficultyBadge(
+                                          difficulty: widgetInfo.difficulty,
+                                        ),
                                       ],
                                     ),
                                     const SizedBox(height: 8),
                                     Expanded(
                                       child: Text(
                                         widgetInfo.description,
-                                        style: Theme.of(context).textTheme.bodyMedium,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium,
                                         maxLines: 3,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -84,7 +91,9 @@ class CategoryScreen extends StatelessWidget {
                                         Text(
                                           'View Details',
                                           style: TextStyle(
-                                            color: Theme.of(context).colorScheme.primary,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -92,7 +101,9 @@ class CategoryScreen extends StatelessWidget {
                                         Icon(
                                           Icons.arrow_forward,
                                           size: 16,
-                                          color: Theme.of(context).colorScheme.primary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
                                         ),
                                       ],
                                     ),
@@ -115,13 +126,16 @@ class CategoryScreen extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            trailing: DifficultyBadge(difficulty: widgetInfo.difficulty),
+                            trailing: DifficultyBadge(
+                              difficulty: widgetInfo.difficulty,
+                            ),
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      WidgetDetailScreen(widgetInfo: widgetInfo),
+                                  builder: (context) => WidgetDetailScreen(
+                                    widgetInfo: widgetInfo,
+                                  ),
                                 ),
                               );
                             },

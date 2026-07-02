@@ -253,7 +253,9 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxHeight: kPreviewMaxHeight),
+                    constraints: const BoxConstraints(
+                      maxHeight: kPreviewMaxHeight,
+                    ),
                     child: Center(child: widgetInfo.builder(context)),
                   ),
                 ),
@@ -277,7 +279,10 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                       for (final name in widgetInfo.relatedWidgets)
                         if (WidgetData.getByName(name) != null)
                           ActionChip(
-                            avatar: const Icon(Icons.widgets_outlined, size: 18),
+                            avatar: const Icon(
+                              Icons.widgets_outlined,
+                              size: 18,
+                            ),
                             label: Text(name),
                             onPressed: () => Navigator.push(
                               context,
@@ -331,12 +336,17 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.surfaceContainerHighest,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: SelectableText(
                       widgetInfo.codeSnippet!,
-                      style: const TextStyle(fontFamily: 'Courier', fontSize: 13),
+                      style: const TextStyle(
+                        fontFamily: 'Courier',
+                        fontSize: 13,
+                      ),
                     ),
                   ),
                 ],

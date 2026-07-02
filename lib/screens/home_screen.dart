@@ -83,7 +83,10 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
                     child: Text(
                       'Categories',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   if (wide)
