@@ -368,12 +368,18 @@ class _AnimatedListSampleState extends State<_AnimatedListSample> {
   }
 
   void _remove() {
-    if (_selectedItem != null) {
-      _list.removeAt(_list.indexOf(_selectedItem!));
-      setState(() {
-        _selectedItem = null;
-      });
+    if (_list.length == 0) {
+      return;
     }
+    // Remove the selected item, or fall back to the last item when nothing
+    // is selected so the button always does something.
+    final int index = _selectedItem != null
+        ? _list.indexOf(_selectedItem!)
+        : _list.length - 1;
+    _list.removeAt(index);
+    setState(() {
+      _selectedItem = null;
+    });
   }
 
   @override
@@ -393,7 +399,7 @@ class _AnimatedListSampleState extends State<_AnimatedListSample> {
               IconButton(
                 icon: const Icon(Icons.remove_circle),
                 onPressed: _remove,
-                tooltip: 'remove the selected item',
+                tooltip: 'remove the selected item (or the last item)',
               ),
             ],
           ),
@@ -1726,12 +1732,18 @@ class _AnimatedListSampleState extends State<_AnimatedListSample> {
   }
 
   void _remove() {
-    if (_selectedItem != null) {
-      _list.removeAt(_list.indexOf(_selectedItem!));
-      setState(() {
-        _selectedItem = null;
-      });
+    if (_list.length == 0) {
+      return;
     }
+    // Remove the selected item, or fall back to the last item when nothing
+    // is selected so the button always does something.
+    final int index = _selectedItem != null
+        ? _list.indexOf(_selectedItem!)
+        : _list.length - 1;
+    _list.removeAt(index);
+    setState(() {
+      _selectedItem = null;
+    });
   }
 
   @override
@@ -1751,7 +1763,7 @@ class _AnimatedListSampleState extends State<_AnimatedListSample> {
               IconButton(
                 icon: const Icon(Icons.remove_circle),
                 onPressed: _remove,
-                tooltip: 'remove the selected item',
+                tooltip: 'remove the selected item (or the last item)',
               ),
             ],
           ),
