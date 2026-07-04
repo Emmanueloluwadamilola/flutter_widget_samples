@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../data/widget_data.dart';
 import '../models/widget_info.dart';
-import 'widget_detail_screen.dart';
 
 /// Full-catalog search over widget names, descriptions, and tags.
 class CatalogSearchDelegate extends SearchDelegate<WidgetInfo?> {
@@ -54,13 +54,11 @@ class CatalogSearchDelegate extends SearchDelegate<WidgetInfo?> {
             style: Theme.of(context).textTheme.labelSmall,
           ),
           onTap: () {
+            // Capture the router before closing search, since `close` disposes
+            // this route's context.
+            final router = GoRouter.of(context);
             close(context, w);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => WidgetDetailScreen(widgetInfo: w),
-              ),
-            );
+            router.push('/widget/${Uri.encodeComponent(w.name)}');
           },
         );
       },

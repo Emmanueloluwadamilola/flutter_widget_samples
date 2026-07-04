@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/knobs.dart';
 import '../../models/widget_info.dart';
 
 final List<WidgetInfo> layoutWidgets = [
@@ -22,6 +23,35 @@ final List<WidgetInfo> layoutWidgets = [
     docsUrl: 'https://api.flutter.dev/flutter/widgets/Container-class.html',
     tags: ['box', 'padding', 'margin', 'decoration', 'sizing'],
     difficulty: WidgetDifficulty.beginner,
+    playground: WidgetPlayground(
+      knobs: const [
+        DoubleKnob('w', 'Width', min: 60, max: 260, initial: 200),
+        DoubleKnob('h', 'Height', min: 60, max: 260, initial: 160),
+        DoubleKnob('radius', 'Corner radius', min: 0, max: 80, initial: 12),
+        ColorKnob(
+          'color',
+          'Color',
+          options: [
+            Colors.blue,
+            Colors.red,
+            Colors.green,
+            Colors.orange,
+            Colors.deepPurple,
+          ],
+          initial: Colors.blue,
+        ),
+      ],
+      builder: (context, k) => Container(
+        width: k.number('w'),
+        height: k.number('h'),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: k.color('color'),
+          borderRadius: BorderRadius.circular(k.number('radius')),
+        ),
+        child: const Text('Container', style: TextStyle(color: Colors.white)),
+      ),
+    ),
     builder: (context) => Container(
       width: 200,
       height: 200,

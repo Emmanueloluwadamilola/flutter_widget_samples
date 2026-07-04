@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import '../../models/knobs.dart';
 import '../../models/widget_info.dart';
 
 final List<WidgetInfo> effectsWidgets = [
@@ -43,6 +44,20 @@ ShaderMask(
     name: 'Opacity',
     description: 'A widget that makes its child partially transparent.',
     category: WidgetCategory.effects,
+    playground: WidgetPlayground(
+      knobs: const [
+        DoubleKnob('opacity', 'Opacity', min: 0, max: 1, initial: 0.5),
+      ],
+      builder: (context, k) => Opacity(
+        opacity: k.number('opacity'),
+        child: Container(
+          width: 120,
+          height: 120,
+          color: Colors.red,
+          child: Center(child: Text('${(k.number('opacity') * 100).round()}%')),
+        ),
+      ),
+    ),
     builder: (context) => Opacity(
       opacity: 0.5,
       child: Container(

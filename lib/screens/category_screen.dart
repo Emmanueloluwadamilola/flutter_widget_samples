@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../models/widget_info.dart';
 import '../data/widget_data.dart';
+import '../routing/app_router.dart';
 import '../widgets/difficulty_badge.dart';
-import 'widget_detail_screen.dart';
 
 class CategoryScreen extends StatelessWidget {
   final WidgetCategory category;
@@ -14,7 +15,18 @@ class CategoryScreen extends StatelessWidget {
     final widgets = WidgetData.getWidgetsByCategory(category);
 
     return Scaffold(
-      appBar: AppBar(title: Text(category.name.toUpperCase())),
+      appBar: AppBar(
+        title: Text(category.name.toUpperCase()),
+        // When opened via a direct/deep link there is nothing to pop, so offer
+        // a way back to the catalog home instead of a dead-end.
+        leading: context.canPop()
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.home_outlined),
+                tooltip: 'Home',
+                onPressed: () => context.go('/'),
+              ),
+      ),
       body: widgets.isEmpty
           ? const Center(child: Text('No widgets in this category yet.'))
           : Center(
@@ -39,16 +51,7 @@ class CategoryScreen extends StatelessWidget {
                           return Card(
                             clipBehavior: Clip.antiAlias,
                             child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => WidgetDetailScreen(
-                                      widgetInfo: widgetInfo,
-                                    ),
-                                  ),
-                                );
-                              },
+                              onTap: () => context.goToWidget(widgetInfo.name),
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Column(
@@ -129,16 +132,7 @@ class CategoryScreen extends StatelessWidget {
                             trailing: DifficultyBadge(
                               difficulty: widgetInfo.difficulty,
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WidgetDetailScreen(
-                                    widgetInfo: widgetInfo,
-                                  ),
-                                ),
-                              );
-                            },
+                            onTap: () => context.goToWidget(widgetInfo.name),
                           );
                         },
                       );

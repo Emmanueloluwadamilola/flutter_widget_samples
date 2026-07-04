@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../data/widget_data.dart';
 import '../models/widget_info.dart';
+import '../routing/app_router.dart';
 import '../services/catalog_prefs.dart';
+import '../widgets/code_block.dart';
 import '../widgets/difficulty_badge.dart';
+import '../widgets/playground_view.dart';
 
 /// Maximum height of the live-sample preview box. Bounding the height gives
 /// full-height widgets (NavigationRail, BottomAppBar, …) finite constraints so
@@ -40,6 +43,14 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widgetInfo.name),
+        // Deep links land here with an empty back stack; give a home affordance.
+        leading: context.canPop()
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.home_outlined),
+                tooltip: 'Home',
+                onPressed: () => context.go('/'),
+              ),
         actions: [
           IconButton(
             icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
@@ -67,6 +78,51 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
     );
   }
 
+  /// The live preview: an interactive playground when the entry defines one,
+  /// otherwise the static sample inside a bounded box.
+  Widget _buildPreviewSection(BuildContext context) {
+    final playground = widgetInfo.playground;
+    if (playground != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const _SectionTitle('Interactive Playground'),
+              const SizedBox(width: 8),
+              Icon(
+                Icons.tune,
+                size: 18,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          PlaygroundView(playground: playground),
+        ],
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const _SectionTitle('Live Sample'),
+        const SizedBox(height: 12),
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).dividerColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: kPreviewMaxHeight),
+            child: Center(child: widgetInfo.builder(context)),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildNarrowLayout(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
@@ -89,20 +145,7 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 24),
-          const _SectionTitle('Live Sample'),
-          const SizedBox(height: 12),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).dividerColor),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: kPreviewMaxHeight),
-              child: Center(child: widgetInfo.builder(context)),
-            ),
-          ),
+          _buildPreviewSection(context),
           if (widgetInfo.whenToUse != null) ...[
             const SizedBox(height: 24),
             const _SectionTitle('When to use it'),
@@ -138,30 +181,9 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
           ],
           if (widgetInfo.codeSnippet != null) ...[
             const SizedBox(height: 24),
-            Row(
-              children: [
-                const _SectionTitle('Code Snippet'),
-                const Spacer(),
-                TextButton.icon(
-                  icon: const Icon(Icons.copy, size: 18),
-                  label: const Text('Copy'),
-                  onPressed: () => _copyCode(context),
-                ),
-              ],
-            ),
+            const _SectionTitle('Code Snippet'),
             const SizedBox(height: 8),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: SelectableText(
-                widgetInfo.codeSnippet!,
-                style: const TextStyle(fontFamily: 'Courier'),
-              ),
-            ),
+            CodeBlock(code: widgetInfo.codeSnippet!),
           ],
           if (widgetInfo.relatedWidgets.isNotEmpty) ...[
             const SizedBox(height: 24),
@@ -176,14 +198,7 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                     ActionChip(
                       avatar: const Icon(Icons.widgets_outlined, size: 18),
                       label: Text(name),
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => WidgetDetailScreen(
-                            widgetInfo: WidgetData.getByName(name)!,
-                          ),
-                        ),
-                      ),
+                      onPressed: () => context.goToWidget(name),
                     ),
               ],
             ),
@@ -243,22 +258,7 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 24),
-                const _SectionTitle('Live Sample'),
-                const SizedBox(height: 12),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).dividerColor),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: kPreviewMaxHeight,
-                    ),
-                    child: Center(child: widgetInfo.builder(context)),
-                  ),
-                ),
+                _buildPreviewSection(context),
                 if (widgetInfo.whenToUse != null) ...[
                   const SizedBox(height: 24),
                   const _SectionTitle('When to use it'),
@@ -284,14 +284,7 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                               size: 18,
                             ),
                             label: Text(name),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => WidgetDetailScreen(
-                                  widgetInfo: WidgetData.getByName(name)!,
-                                ),
-                              ),
-                            ),
+                            onPressed: () => context.goToWidget(name),
                           ),
                     ],
                   ),
@@ -320,35 +313,9 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (widgetInfo.codeSnippet != null) ...[
-                  Row(
-                    children: [
-                      const _SectionTitle('Code Snippet'),
-                      const Spacer(),
-                      IconButton(
-                        icon: const Icon(Icons.copy, size: 20),
-                        tooltip: 'Copy Code',
-                        onPressed: () => _copyCode(context),
-                      ),
-                    ],
-                  ),
+                  const _SectionTitle('Code Snippet'),
                   const SizedBox(height: 8),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: SelectableText(
-                      widgetInfo.codeSnippet!,
-                      style: const TextStyle(
-                        fontFamily: 'Courier',
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
+                  CodeBlock(code: widgetInfo.codeSnippet!),
                 ],
                 if (widgetInfo.commonPitfalls.isNotEmpty) ...[
                   const SizedBox(height: 24),
@@ -386,16 +353,6 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _copyCode(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: widgetInfo.codeSnippet!));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Code copied to clipboard'),
-        duration: Duration(seconds: 1),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'knobs.dart';
 
 /// The top-level groupings shown on the home screen.
 ///
@@ -72,6 +73,10 @@ class WidgetInfo {
   /// How much experience the sample assumes. Defaults to [WidgetDifficulty.beginner].
   final WidgetDifficulty difficulty;
 
+  /// Optional interactive playground with live-editable knobs. When present,
+  /// the detail screen renders tweakable controls alongside the preview.
+  final WidgetPlayground? playground;
+
   const WidgetInfo({
     required this.name,
     required this.description,
@@ -84,6 +89,7 @@ class WidgetInfo {
     this.docsUrl,
     this.tags = const [],
     this.difficulty = WidgetDifficulty.beginner,
+    this.playground,
   });
 
   /// Whether this entry carries any of the richer teaching fields beyond the

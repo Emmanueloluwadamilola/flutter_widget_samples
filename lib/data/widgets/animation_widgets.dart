@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/knobs.dart';
 import '../../models/widget_info.dart';
 
 final List<WidgetInfo> animationWidgets = [
@@ -7,6 +8,32 @@ final List<WidgetInfo> animationWidgets = [
     description:
         'A container that gradually changes its values over a period of time.',
     category: WidgetCategory.animation,
+    playground: WidgetPlayground(
+      knobs: const [
+        DoubleKnob('w', 'Width', min: 60, max: 240, initial: 120),
+        DoubleKnob('h', 'Height', min: 60, max: 240, initial: 120),
+        DoubleKnob('radius', 'Corner radius', min: 0, max: 120, initial: 8),
+        ColorKnob(
+          'color',
+          'Color',
+          options: [Colors.blue, Colors.red, Colors.green, Colors.deepPurple],
+          initial: Colors.blue,
+        ),
+      ],
+      // Every knob change animates smoothly — that is the whole point of
+      // AnimatedContainer, and the playground shows it off live.
+      builder: (context, k) => AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+        width: k.number('w'),
+        height: k.number('h'),
+        decoration: BoxDecoration(
+          color: k.color('color'),
+          borderRadius: BorderRadius.circular(k.number('radius')),
+        ),
+        child: const Center(child: FlutterLogo(size: 60)),
+      ),
+    ),
     builder: (context) => const _AnimatedContainerSample(),
     codeSnippet: '''
 class _AnimatedContainerSample extends StatefulWidget {

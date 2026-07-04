@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import '../data/widget_data.dart';
 import '../models/widget_info.dart';
+import '../routing/app_router.dart';
 import '../services/catalog_prefs.dart';
-import 'category_screen.dart';
 import 'catalog_search_delegate.dart';
-import 'widget_detail_screen.dart';
 
 /// Icon shown for each category on the home screen.
 const Map<WidgetCategory, IconData> _categoryIcons = {
@@ -127,17 +126,11 @@ class HomeScreen extends StatelessWidget {
 }
 
 void _openCategory(BuildContext context, WidgetCategory category) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => CategoryScreen(category: category)),
-  );
+  context.goToCategory(category);
 }
 
 void _openWidget(BuildContext context, WidgetInfo info) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (_) => WidgetDetailScreen(widgetInfo: info)),
-  );
+  context.goToWidget(info.name);
 }
 
 /// A horizontally-scrolling strip of widget cards (favorites / recents).
