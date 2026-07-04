@@ -1,5 +1,10 @@
 # Flutter Widget Catalog
 
+[![Live Demo](https://img.shields.io/badge/live-demo-6750A4?logo=flutter&logoColor=white)](https://emmanueloluwadamilola.github.io/flutter_widget_samples/)
+[![Flutter](https://img.shields.io/badge/Flutter-stable-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
 An interactive, premium, and fully responsive catalog of **300+ Flutter widgets**. Every entry in the catalog contains a **live, running sample**, a copy-paste **code snippet**, and practical teaching notes—such as *when to use it*, *common pitfalls*, *related widgets*, and a direct link to the official Flutter API documentation.
 
 🔗 **Live demo:** [emmanueloluwadamilola.github.io/flutter_widget_samples](https://emmanueloluwadamilola.github.io/flutter_widget_samples/)
@@ -120,3 +125,9 @@ The automated test suite in [catalog_test.dart](test/catalog_test.dart) goes bey
 - Verifies that every single widget sample builder renders without throwing errors.
 - Enforces globally unique widget names.
 - Assures all `relatedWidgets` list entries correctly cross-reference existing entries.
+
+---
+
+## 📄 License
+
+Released under the [MIT License](LICENSE). Contributions are accepted under the same license.
