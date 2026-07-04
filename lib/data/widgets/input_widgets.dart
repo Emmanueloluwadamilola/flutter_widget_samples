@@ -56,12 +56,26 @@ TextField(
     docsUrl: 'https://api.flutter.dev/flutter/material/Checkbox-class.html',
     tags: ['toggle', 'boolean', 'form', 'selection'],
     difficulty: WidgetDifficulty.beginner,
-    builder: (context) => Checkbox(value: true, onChanged: (bool? value) {}),
+    builder: (context) => const _CheckboxSample(),
     codeSnippet: '''
-Checkbox(
-  value: true,
-  onChanged: (bool? value) {},
-)
+class _CheckboxSample extends StatefulWidget {
+  const _CheckboxSample();
+
+  @override
+  State<_CheckboxSample> createState() => _CheckboxSampleState();
+}
+
+class _CheckboxSampleState extends State<_CheckboxSample> {
+  bool _checked = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      value: _checked,
+      onChanged: (bool? value) => setState(() => _checked = value ?? false),
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -83,32 +97,37 @@ Checkbox(
     docsUrl: 'https://api.flutter.dev/flutter/material/Radio-class.html',
     tags: ['selection', 'single-choice', 'form', 'radio'],
     difficulty: WidgetDifficulty.intermediate,
-    builder: (context) => RadioGroup<int>(
-      groupValue: 1,
-      onChanged: (int? value) {},
+    builder: (context) => const _RadioSample(),
+    codeSnippet: '''
+class _RadioSample extends StatefulWidget {
+  const _RadioSample();
+
+  @override
+  State<_RadioSample> createState() => _RadioSampleState();
+}
+
+class _RadioSampleState extends State<_RadioSample> {
+  int _selected = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioGroup<int>(
+      groupValue: _selected,
+      onChanged: (int? value) =>
+          setState(() => _selected = value ?? _selected),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Radio<int>(value: 1),
           Text('Option 1'),
+          SizedBox(width: 16),
           Radio<int>(value: 2),
           Text('Option 2'),
         ],
       ),
-    ),
-    codeSnippet: '''
-RadioGroup<int>(
-  groupValue: 1,
-  onChanged: (int? value) {},
-  child: Row(
-    children: [
-      Radio<int>(value: 1),
-      const Text('Option 1'),
-      Radio<int>(value: 2),
-      const Text('Option 2'),
-    ],
-  ),
-)
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -129,12 +148,26 @@ RadioGroup<int>(
     docsUrl: 'https://api.flutter.dev/flutter/material/Switch-class.html',
     tags: ['toggle', 'boolean', 'setting', 'on-off'],
     difficulty: WidgetDifficulty.beginner,
-    builder: (context) => Switch(value: true, onChanged: (bool value) {}),
+    builder: (context) => const _SwitchSample(),
     codeSnippet: '''
-Switch(
-  value: true,
-  onChanged: (bool value) {},
-)
+class _SwitchSample extends StatefulWidget {
+  const _SwitchSample();
+
+  @override
+  State<_SwitchSample> createState() => _SwitchSampleState();
+}
+
+class _SwitchSampleState extends State<_SwitchSample> {
+  bool _on = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+      value: _on,
+      onChanged: (bool value) => setState(() => _on = value),
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -155,12 +188,26 @@ Switch(
     docsUrl: 'https://api.flutter.dev/flutter/material/Slider-class.html',
     tags: ['slider', 'range', 'value', 'continuous'],
     difficulty: WidgetDifficulty.beginner,
-    builder: (context) => Slider(value: 0.5, onChanged: (double value) {}),
+    builder: (context) => const _SliderSample(),
     codeSnippet: '''
-Slider(
-  value: 0.5,
-  onChanged: (double value) {},
-)
+class _SliderSample extends StatefulWidget {
+  const _SliderSample();
+
+  @override
+  State<_SliderSample> createState() => _SliderSampleState();
+}
+
+class _SliderSampleState extends State<_SliderSample> {
+  double _value = 0.5;
+
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: _value,
+      onChanged: (double value) => setState(() => _value = value),
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -188,27 +235,33 @@ Slider(
         'https://api.flutter.dev/flutter/material/DropdownButton-class.html',
     tags: ['dropdown', 'selection', 'menu', 'single-choice'],
     difficulty: WidgetDifficulty.intermediate,
-    builder: (context) => DropdownButton<String>(
-      value: 'One',
-      items: <String>['One', 'Two', 'Three', 'Four']
+    builder: (context) => const _DropdownButtonSample(),
+    codeSnippet: '''
+class _DropdownButtonSample extends StatefulWidget {
+  const _DropdownButtonSample();
+
+  @override
+  State<_DropdownButtonSample> createState() => _DropdownButtonSampleState();
+}
+
+class _DropdownButtonSampleState extends State<_DropdownButtonSample> {
+  String _value = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: _value,
+      items: const <String>['One', 'Two', 'Three', 'Four']
           .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(value: value, child: Text(value));
           })
           .toList(),
-      onChanged: (String? newValue) {},
-    ),
-    codeSnippet: '''
-DropdownButton<String>(
-  value: 'One',
-  items: <String>['One', 'Two', 'Three', 'Four']
-      .map<DropdownMenuItem<String>>((String value) {
-    return DropdownMenuItem<String>(
-      value: value,
-      child: Text(value),
+      onChanged: (String? newValue) {
+        if (newValue != null) setState(() => _value = newValue);
+      },
     );
-  }).toList(),
-  onChanged: (String? newValue) {},
-)
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -893,6 +946,118 @@ class _ToggleButtonsSampleState extends State<_ToggleButtonsSample> {
 ''',
   ),
 ];
+
+class _CheckboxSample extends StatefulWidget {
+  const _CheckboxSample();
+
+  @override
+  State<_CheckboxSample> createState() => _CheckboxSampleState();
+}
+
+class _CheckboxSampleState extends State<_CheckboxSample> {
+  bool _checked = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Checkbox(
+      value: _checked,
+      onChanged: (bool? value) => setState(() => _checked = value ?? false),
+    );
+  }
+}
+
+class _RadioSample extends StatefulWidget {
+  const _RadioSample();
+
+  @override
+  State<_RadioSample> createState() => _RadioSampleState();
+}
+
+class _RadioSampleState extends State<_RadioSample> {
+  int _selected = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return RadioGroup<int>(
+      groupValue: _selected,
+      onChanged: (int? value) => setState(() => _selected = value ?? _selected),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Radio<int>(value: 1),
+          Text('Option 1'),
+          SizedBox(width: 16),
+          Radio<int>(value: 2),
+          Text('Option 2'),
+        ],
+      ),
+    );
+  }
+}
+
+class _SwitchSample extends StatefulWidget {
+  const _SwitchSample();
+
+  @override
+  State<_SwitchSample> createState() => _SwitchSampleState();
+}
+
+class _SwitchSampleState extends State<_SwitchSample> {
+  bool _on = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Switch(
+      value: _on,
+      onChanged: (bool value) => setState(() => _on = value),
+    );
+  }
+}
+
+class _SliderSample extends StatefulWidget {
+  const _SliderSample();
+
+  @override
+  State<_SliderSample> createState() => _SliderSampleState();
+}
+
+class _SliderSampleState extends State<_SliderSample> {
+  double _value = 0.5;
+
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: _value,
+      onChanged: (double value) => setState(() => _value = value),
+    );
+  }
+}
+
+class _DropdownButtonSample extends StatefulWidget {
+  const _DropdownButtonSample();
+
+  @override
+  State<_DropdownButtonSample> createState() => _DropdownButtonSampleState();
+}
+
+class _DropdownButtonSampleState extends State<_DropdownButtonSample> {
+  String _value = 'One';
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: _value,
+      items: const <String>['One', 'Two', 'Three', 'Four']
+          .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(value: value, child: Text(value));
+          })
+          .toList(),
+      onChanged: (String? newValue) {
+        if (newValue != null) setState(() => _value = newValue);
+      },
+    );
+  }
+}
 
 class _AutocompleteSample extends StatelessWidget {
   const _AutocompleteSample();
