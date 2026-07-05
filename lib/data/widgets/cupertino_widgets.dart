@@ -101,32 +101,41 @@ showCupertinoModalPopup<void>(
     name: 'CupertinoPicker',
     description: 'An iOS-style picker control.',
     category: WidgetCategory.cupertino,
-    builder: (context) => SizedBox(
-      height: 200,
-      child: CupertinoPicker(
-        itemExtent: 32.0,
-        onSelectedItemChanged: (int index) {},
-        children: const <Widget>[
-          Text('Item 1'),
-          Text('Item 2'),
-          Text('Item 3'),
-          Text('Item 4'),
-          Text('Item 5'),
-        ],
-      ),
-    ),
+    builder: (context) => const _CupertinoPickerSample(),
     codeSnippet: '''
-CupertinoPicker(
-  itemExtent: 32.0,
-  onSelectedItemChanged: (int index) {},
-  children: const <Widget>[
-    Text('Item 1'),
-    Text('Item 2'),
-    Text('Item 3'),
-    Text('Item 4'),
-    Text('Item 5'),
-  ],
-)
+class _CupertinoPickerSample extends StatefulWidget {
+  const _CupertinoPickerSample();
+
+  @override
+  State<_CupertinoPickerSample> createState() => _CupertinoPickerSampleState();
+}
+
+class _CupertinoPickerSampleState extends State<_CupertinoPickerSample> {
+  static const List<String> _items = <String>[
+    'Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5',
+  ];
+  int _selected = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Selected: \${_items[_selected]}'),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 160,
+          child: CupertinoPicker(
+            itemExtent: 32.0,
+            onSelectedItemChanged: (int index) =>
+                setState(() => _selected = index),
+            children: [for (final item in _items) Center(child: Text(item))],
+          ),
+        ),
+      ],
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -419,38 +428,87 @@ CupertinoContextMenu(
     name: 'CupertinoDatePicker',
     description: 'An iOS-style date picker.',
     category: WidgetCategory.cupertino,
-    builder: (context) => SizedBox(
-      height: 200,
-      child: CupertinoDatePicker(
-        mode: CupertinoDatePickerMode.date,
-        initialDateTime: DateTime.now(),
-        onDateTimeChanged: (DateTime newDateTime) {},
-      ),
-    ),
+    builder: (context) => const _CupertinoDatePickerSample(),
     codeSnippet: '''
-CupertinoDatePicker(
-  mode: CupertinoDatePickerMode.date,
-  initialDateTime: DateTime.now(),
-  onDateTimeChanged: (DateTime newDateTime) {},
-)
+class _CupertinoDatePickerSample extends StatefulWidget {
+  const _CupertinoDatePickerSample();
+
+  @override
+  State<_CupertinoDatePickerSample> createState() =>
+      _CupertinoDatePickerSampleState();
+}
+
+class _CupertinoDatePickerSampleState
+    extends State<_CupertinoDatePickerSample> {
+  // Fixed initial value so the wheel does not jump as state updates.
+  final DateTime _initial = DateTime.now();
+  late DateTime _date = _initial;
+
+  @override
+  Widget build(BuildContext context) {
+    final d = _date;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Selected: \${d.year}-\${d.month.toString().padLeft(2, '0')}-'
+          '\${d.day.toString().padLeft(2, '0')}',
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 180,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            initialDateTime: _initial,
+            onDateTimeChanged: (DateTime newDateTime) =>
+                setState(() => _date = newDateTime),
+          ),
+        ),
+      ],
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
     name: 'CupertinoTimerPicker',
     description: 'An iOS-style countdown timer picker.',
     category: WidgetCategory.cupertino,
-    builder: (context) => SizedBox(
-      height: 200,
-      child: CupertinoTimerPicker(
-        mode: CupertinoTimerPickerMode.hm,
-        onTimerDurationChanged: (Duration newDuration) {},
-      ),
-    ),
+    builder: (context) => const _CupertinoTimerPickerSample(),
     codeSnippet: '''
-CupertinoTimerPicker(
-  mode: CupertinoTimerPickerMode.hm,
-  onTimerDurationChanged: (Duration newDuration) {},
-)
+class _CupertinoTimerPickerSample extends StatefulWidget {
+  const _CupertinoTimerPickerSample();
+
+  @override
+  State<_CupertinoTimerPickerSample> createState() =>
+      _CupertinoTimerPickerSampleState();
+}
+
+class _CupertinoTimerPickerSampleState
+    extends State<_CupertinoTimerPickerSample> {
+  Duration _duration = Duration.zero;
+
+  @override
+  Widget build(BuildContext context) {
+    final h = _duration.inHours;
+    final m = _duration.inMinutes % 60;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Selected: \${h}h \${m}m'),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 180,
+          child: CupertinoTimerPicker(
+            mode: CupertinoTimerPickerMode.hm,
+            onTimerDurationChanged: (Duration newDuration) =>
+                setState(() => _duration = newDuration),
+          ),
+        ),
+      ],
+    );
+  }
+}
 ''',
   ),
   WidgetInfo(
@@ -1775,6 +1833,117 @@ class _CupertinoScrollbarSampleState extends State<_CupertinoScrollbarSample> {
               ListTile(title: Text('Item \$index')),
         ),
       ),
+    );
+  }
+}
+
+class _CupertinoPickerSample extends StatefulWidget {
+  const _CupertinoPickerSample();
+
+  @override
+  State<_CupertinoPickerSample> createState() => _CupertinoPickerSampleState();
+}
+
+class _CupertinoPickerSampleState extends State<_CupertinoPickerSample> {
+  static const List<String> _items = <String>[
+    'Item 1',
+    'Item 2',
+    'Item 3',
+    'Item 4',
+    'Item 5',
+  ];
+  int _selected = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Selected: ${_items[_selected]}'),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 160,
+          child: CupertinoPicker(
+            itemExtent: 32.0,
+            onSelectedItemChanged: (int index) =>
+                setState(() => _selected = index),
+            children: [for (final item in _items) Center(child: Text(item))],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CupertinoDatePickerSample extends StatefulWidget {
+  const _CupertinoDatePickerSample();
+
+  @override
+  State<_CupertinoDatePickerSample> createState() =>
+      _CupertinoDatePickerSampleState();
+}
+
+class _CupertinoDatePickerSampleState
+    extends State<_CupertinoDatePickerSample> {
+  // Fixed initial value so the wheel does not jump as state updates.
+  final DateTime _initial = DateTime.now();
+  late DateTime _date = _initial;
+
+  @override
+  Widget build(BuildContext context) {
+    final d = _date;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'Selected: ${d.year}-${d.month.toString().padLeft(2, '0')}-'
+          '${d.day.toString().padLeft(2, '0')}',
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 180,
+          child: CupertinoDatePicker(
+            mode: CupertinoDatePickerMode.date,
+            initialDateTime: _initial,
+            onDateTimeChanged: (DateTime newDateTime) =>
+                setState(() => _date = newDateTime),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CupertinoTimerPickerSample extends StatefulWidget {
+  const _CupertinoTimerPickerSample();
+
+  @override
+  State<_CupertinoTimerPickerSample> createState() =>
+      _CupertinoTimerPickerSampleState();
+}
+
+class _CupertinoTimerPickerSampleState
+    extends State<_CupertinoTimerPickerSample> {
+  Duration _duration = Duration.zero;
+
+  @override
+  Widget build(BuildContext context) {
+    final h = _duration.inHours;
+    final m = _duration.inMinutes % 60;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('Selected: ${h}h ${m}m'),
+        const SizedBox(height: 8),
+        SizedBox(
+          height: 180,
+          child: CupertinoTimerPicker(
+            mode: CupertinoTimerPickerMode.hm,
+            onTimerDurationChanged: (Duration newDuration) =>
+                setState(() => _duration = newDuration),
+          ),
+        ),
+      ],
     );
   }
 }

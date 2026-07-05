@@ -189,33 +189,145 @@ Banner(
     name: 'Magnifier',
     description: 'A widget that magnifies the content beneath it.',
     category: WidgetCategory.effects,
-    builder: (context) => Stack(
-      alignment: Alignment.center,
+    builder: (context) => const _MagnifierSample(),
+    codeSnippet: '''
+class _MagnifierSample extends StatefulWidget {
+  const _MagnifierSample();
+
+  @override
+  State<_MagnifierSample> createState() => _MagnifierSampleState();
+}
+
+class _MagnifierSampleState extends State<_MagnifierSample> {
+  static const double _width = 280;
+  static const double _height = 160;
+  static const double _lens = 90;
+  Offset _position = const Offset(20, 40);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('Hover/Drag to magnify! (Implementation simulated here)'),
-        RawMagnifier(
-          decoration: const MagnifierDecoration(
-            shape: CircleBorder(
-              side: BorderSide(color: Colors.black, width: 2),
+        const Text('Drag over the text to magnify it'),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: _width,
+          height: _height,
+          child: GestureDetector(
+            onPanUpdate: (details) {
+              setState(() {
+                final dx = (_position.dx + details.delta.dx)
+                    .clamp(0.0, _width - _lens);
+                final dy = (_position.dy + details.delta.dy)
+                    .clamp(0.0, _height - _lens);
+                _position = Offset(dx, dy);
+              });
+            },
+            child: Stack(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'The quick brown fox jumps over the lazy dog. '
+                    'Flutter makes it easy to build beautiful, natively '
+                    'compiled apps. Drag the lens to magnify this text.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Positioned(
+                  left: _position.dx,
+                  top: _position.dy,
+                  child: const RawMagnifier(
+                    decoration: MagnifierDecoration(
+                      shape: CircleBorder(
+                        side: BorderSide(color: Colors.black, width: 2),
+                      ),
+                    ),
+                    size: Size(_lens, _lens),
+                    magnificationScale: 2,
+                    child: SizedBox.shrink(),
+                  ),
+                ),
+              ],
             ),
           ),
-          size: const Size(100, 100),
-          magnificationScale: 2,
-          child: Container(),
         ),
       ],
-    ),
-    codeSnippet: '''
-// Usually used with a breakdown of gesture detectors or overlay
-RawMagnifier(
-  decoration: const MagnifierDecoration(
-    shape: CircleBorder(
-      side: BorderSide(color: Colors.black, width: 2),
-    ),
-  ),
-  size: const Size(100, 100),
-  magnificationScale: 2,
-)
+    );
+  }
+}
 ''',
   ),
 ];
+
+class _MagnifierSample extends StatefulWidget {
+  const _MagnifierSample();
+
+  @override
+  State<_MagnifierSample> createState() => _MagnifierSampleState();
+}
+
+class _MagnifierSampleState extends State<_MagnifierSample> {
+  static const double _width = 280;
+  static const double _height = 160;
+  static const double _lens = 90;
+  Offset _position = const Offset(20, 40);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text('Drag over the text to magnify it'),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: _width,
+          height: _height,
+          child: GestureDetector(
+            onPanUpdate: (details) {
+              setState(() {
+                final dx = (_position.dx + details.delta.dx).clamp(
+                  0.0,
+                  _width - _lens,
+                );
+                final dy = (_position.dy + details.delta.dy).clamp(
+                  0.0,
+                  _height - _lens,
+                );
+                _position = Offset(dx, dy);
+              });
+            },
+            child: Stack(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8),
+                  child: Text(
+                    'The quick brown fox jumps over the lazy dog. '
+                    'Flutter makes it easy to build beautiful, natively '
+                    'compiled apps. Drag the lens to magnify this text.',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+                Positioned(
+                  left: _position.dx,
+                  top: _position.dy,
+                  child: const RawMagnifier(
+                    decoration: MagnifierDecoration(
+                      shape: CircleBorder(
+                        side: BorderSide(color: Colors.black, width: 2),
+                      ),
+                    ),
+                    size: Size(_lens, _lens),
+                    magnificationScale: 2,
+                    child: SizedBox.shrink(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
