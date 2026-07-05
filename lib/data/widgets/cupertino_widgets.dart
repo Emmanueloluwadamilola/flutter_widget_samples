@@ -1829,8 +1829,7 @@ class _CupertinoScrollbarSampleState extends State<_CupertinoScrollbarSample> {
         child: ListView.builder(
           controller: _controller,
           itemCount: 50,
-          itemBuilder: (context, index) =>
-              ListTile(title: Text('Item \$index')),
+          itemBuilder: (context, index) => ListTile(title: Text('Item $index')),
         ),
       ),
     );

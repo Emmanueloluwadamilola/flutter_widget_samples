@@ -135,8 +135,19 @@ PageView(
       child: RefreshIndicator(
         onRefresh: () async {
           await Future.delayed(const Duration(seconds: 1));
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Refreshed!'),
+                duration: Duration(seconds: 1),
+              ),
+            );
+          }
         },
+        // AlwaysScrollableScrollPhysics lets the user overscroll (and so
+        // trigger a refresh) even when the list is shorter than the viewport.
         child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
           children: const [
             ListTile(title: Text('Pull down to refresh')),
             ListTile(title: Text('Item 1')),
@@ -151,6 +162,7 @@ RefreshIndicator(
     await Future.delayed(const Duration(seconds: 1));
   },
   child: ListView(
+    physics: const AlwaysScrollableScrollPhysics(),
     children: const [
       ListTile(title: Text('Pull down to refresh')),
       ListTile(title: Text('Item 1')),
@@ -235,7 +247,7 @@ class _ReorderableListViewSampleState extends State<_ReorderableListViewSample> 
               return Container(
                 alignment: Alignment.center,
                 color: Colors.teal[100 * (index % 9)],
-                child: Text('Grid Item \$index'),
+                child: Text('Grid Item $index'),
               );
             }, childCount: 10),
           ),
@@ -248,7 +260,7 @@ class _ReorderableListViewSampleState extends State<_ReorderableListViewSample> 
               return Container(
                 alignment: Alignment.center,
                 color: Colors.lightBlue[100 * (index % 9)],
-                child: Text('List Item \$index'),
+                child: Text('List Item $index'),
               );
             }, childCount: 10),
           ),
@@ -511,7 +523,7 @@ ListWheelScrollView(
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => ListTile(title: Text('Item \$index')),
+              (context, index) => ListTile(title: Text('Item $index')),
               childCount: 20,
             ),
           ),
@@ -925,7 +937,7 @@ class _SliverAnimatedListSampleState extends State<_SliverAnimatedListSample> {
           const SliverAppBar(title: Text('SliverFillRemaining'), pinned: true),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => ListTile(title: Text('Item \$index')),
+              (context, index) => ListTile(title: Text('Item $index')),
               childCount: 5,
             ),
           ),
@@ -977,7 +989,7 @@ CustomScrollView(
             delegate: SliverChildBuilderDelegate(
               (context, index) => Container(
                 color: Colors.primaries[index % Colors.primaries.length],
-                child: Center(child: Text('Page \$index')),
+                child: Center(child: Text('Page $index')),
               ),
               childCount: 5,
             ),
@@ -1034,7 +1046,7 @@ CustomScrollView(
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) => ListTile(title: Text('Item \$index')),
+              (context, index) => ListTile(title: Text('Item $index')),
               childCount: 20,
             ),
           ),
@@ -1626,7 +1638,7 @@ class _SliverOpacitySample extends StatelessWidget {
                   height: 50.0,
                   child: Center(
                     child: Text(
-                      'Item \$index (50% Opacity)',
+                      'Item $index (50% Opacity)',
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -1644,7 +1656,7 @@ class _SliverOpacitySample extends StatelessWidget {
                 height: 50.0,
                 child: Center(
                   child: Text(
-                    'Item \${index + 5} (100% Opacity)',
+                    'Item ${index + 5} (100% Opacity)',
                     style: const TextStyle(color: Colors.white),
                   ),
                 ),
@@ -1734,7 +1746,7 @@ class _SliverAnimatedListSampleState extends State<_SliverAnimatedListSample> {
                       color: Colors.primaries[index % Colors.primaries.length],
                       child: ListTile(
                         title: Text(
-                          'Item \${_list[index]}',
+                          'Item ${_list[index]}',
                           style: const TextStyle(color: Colors.white),
                         ),
                       ),

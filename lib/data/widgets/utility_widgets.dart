@@ -86,7 +86,7 @@ class _VisibilitySampleState extends State<_VisibilitySample> {
             // Here we just demo it building a widget.
           },
           child: Text(
-            'Context ID: \${context.hashCode}', // Simple demo that we have a context
+            'Context ID: ${context.hashCode}', // Simple demo that we have a context
           ),
         );
       },
@@ -552,7 +552,7 @@ class _ScrollableSampleState extends State<_ScrollableSample> {
       child: Column(
         children: [
           Text(
-            'Offset: \${_controller.hasClients ? _controller.offset.round() : 0}',
+            'Offset: ${_controller.hasClients ? _controller.offset.round() : 0}',
           ),
           Expanded(
             child: Scrollable(
@@ -565,7 +565,7 @@ class _ScrollableSampleState extends State<_ScrollableSample> {
                     SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
                         return ListTile(
-                          title: Text('Low-level Scrollable Item \$index'),
+                          title: Text('Low-level Scrollable Item $index'),
                         );
                       }, childCount: 50),
                     ),

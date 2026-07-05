@@ -706,7 +706,7 @@ Scaffold(
       onSelected: (String result) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Selected: \$result')));
+        ).showSnackBar(SnackBar(content: Text('Selected: $result')));
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
         const PopupMenuItem<String>(value: 'Item 1', child: Text('Item 1')),

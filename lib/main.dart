@@ -1,8 +1,23 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'routing/app_router.dart';
 import 'services/catalog_prefs.dart';
+
+/// Enables drag-to-scroll with a mouse and trackpad, not just touch. Flutter
+/// disables mouse dragging by default on web/desktop, which makes drag-driven
+/// widgets (RefreshIndicator pull-to-refresh, DraggableScrollableSheet, and
+/// scroll notifications) feel broken with a mouse. This restores them.
+class _AppScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => <PointerDeviceKind>{
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.trackpad,
+    PointerDeviceKind.stylus,
+  };
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +61,7 @@ class _MyAppState extends State<MyApp> {
               useMaterial3: true,
             ),
             themeMode: widget.prefs.themeMode,
+            scrollBehavior: _AppScrollBehavior(),
             routerConfig: _router,
           );
         },

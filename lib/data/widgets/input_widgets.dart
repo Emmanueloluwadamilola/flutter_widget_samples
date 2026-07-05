@@ -361,8 +361,9 @@ class _FormSampleState extends State<_FormSample> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                'Selected date: \${picked.toString().split('
-                ')[0]}',
+                'Selected date: '
+                '${picked.year}-${picked.month.toString().padLeft(2, '0')}-'
+                '${picked.day.toString().padLeft(2, '0')}',
               ),
             ),
           );
@@ -404,9 +405,7 @@ showDatePicker(
         );
         if (picked != null && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Selected time: \${picked.format(context)}'),
-            ),
+            SnackBar(content: Text('Selected time: ${picked.format(context)}')),
           );
         }
       },
