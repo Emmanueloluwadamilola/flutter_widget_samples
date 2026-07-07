@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
+
 An interactive, premium, and fully responsive catalog of **300+ Flutter widgets**. Every entry in the catalog contains a **live, running sample**, a copy-paste **code snippet**, and practical teaching notes—such as *when to use it*, *common pitfalls*, *related widgets*, and a direct link to the official Flutter API documentation.
 
 🔗 **Live demo:** [emmanueloluwadamilola.github.io/flutter_widget_samples](https://emmanueloluwadamilola.github.io/flutter_widget_samples/)
