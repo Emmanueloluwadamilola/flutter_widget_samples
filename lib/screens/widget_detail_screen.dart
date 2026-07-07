@@ -5,6 +5,8 @@ import '../data/widget_data.dart';
 import '../models/widget_info.dart';
 import '../routing/app_router.dart';
 import '../services/catalog_prefs.dart';
+import '../theme/category_visuals.dart';
+import '../theme/catalog_theme.dart';
 import '../widgets/code_block.dart';
 import '../widgets/difficulty_badge.dart';
 import '../widgets/playground_view.dart';
@@ -54,25 +56,22 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
         actions: [
           IconButton(
             icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: isFavorite ? Colors.redAccent : null,
+            color: isFavorite ? Theme.of(context).colorScheme.primary : null,
             tooltip: isFavorite ? 'Remove from favorites' : 'Add to favorites',
             onPressed: () => prefs.toggleFavorite(widgetInfo.name),
           ),
         ],
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final wide = constraints.maxWidth >= 800;
-              if (wide) {
-                return _buildWideLayout(context);
-              } else {
-                return _buildNarrowLayout(context);
-              }
-            },
-          ),
+      body: FlutterPageFrame(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final wide = constraints.maxWidth >= 800;
+            if (wide) {
+              return _buildWideLayout(context);
+            } else {
+              return _buildNarrowLayout(context);
+            }
+          },
         ),
       ),
     );
@@ -109,14 +108,14 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
         const SizedBox(height: 12),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(8),
-          ),
+          padding: const EdgeInsets.all(20),
+          decoration: flutterCardDecoration(context, elevated: true),
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: kPreviewMaxHeight),
-            child: Center(child: widgetInfo.builder(context)),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 180),
+              child: Center(child: widgetInfo.builder(context)),
+            ),
           ),
         ),
       ],
@@ -129,53 +128,44 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              DifficultyBadge(difficulty: widgetInfo.difficulty),
-              const Spacer(),
-              Text(
-                widgetInfo.category.name.toUpperCase(),
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            widgetInfo.description,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          _DetailHeader(widgetInfo: widgetInfo),
           const SizedBox(height: 24),
           _buildPreviewSection(context),
           if (widgetInfo.whenToUse != null) ...[
             const SizedBox(height: 24),
-            const _SectionTitle('When to use it'),
-            const SizedBox(height: 8),
-            Text(
-              widgetInfo.whenToUse!,
-              style: Theme.of(context).textTheme.bodyMedium,
+            _SurfacePanel(
+              title: 'When to use it',
+              icon: Icons.lightbulb_outline,
+              child: Text(
+                widgetInfo.whenToUse!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
             ),
           ],
           if (widgetInfo.commonPitfalls.isNotEmpty) ...[
             const SizedBox(height: 24),
-            const _SectionTitle('Common pitfalls'),
-            const SizedBox(height: 8),
-            ...widgetInfo.commonPitfalls.map(
-              (p) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 2, right: 8),
-                      child: Icon(
-                        Icons.warning_amber_rounded,
-                        size: 18,
-                        color: Colors.orange,
+            _SurfacePanel(
+              title: 'Common pitfalls',
+              icon: Icons.warning_amber_rounded,
+              child: Column(
+                children: [
+                  for (final p in widgetInfo.commonPitfalls)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 7,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(p)),
+                        ],
                       ),
                     ),
-                    Expanded(child: Text(p)),
-                  ],
-                ),
+                ],
               ),
             ),
           ],
@@ -187,20 +177,10 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
           ],
           if (widgetInfo.relatedWidgets.isNotEmpty) ...[
             const SizedBox(height: 24),
-            const _SectionTitle('Related widgets'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                for (final name in widgetInfo.relatedWidgets)
-                  if (WidgetData.getByName(name) != null)
-                    ActionChip(
-                      avatar: const Icon(Icons.widgets_outlined, size: 18),
-                      label: Text(name),
-                      onPressed: () => context.goToWidget(name),
-                    ),
-              ],
+            _SurfacePanel(
+              title: 'Related widgets',
+              icon: Icons.hub_outlined,
+              child: _RelatedWidgets(names: widgetInfo.relatedWidgets),
             ),
           ],
           if (widgetInfo.tags.isNotEmpty) ...[
@@ -219,10 +199,13 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
           ],
           if (widgetInfo.docsUrl != null) ...[
             const SizedBox(height: 24),
-            OutlinedButton.icon(
-              icon: const Icon(Icons.open_in_new, size: 18),
-              label: const Text('View official docs'),
-              onPressed: () => _openDocs(context, widgetInfo.docsUrl!),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                icon: const Icon(Icons.open_in_new, size: 18),
+                label: const Text('View official docs'),
+                onPressed: () => _openDocs(context, widgetInfo.docsUrl!),
+              ),
             ),
           ],
           const SizedBox(height: 32),
@@ -242,51 +225,26 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    DifficultyBadge(difficulty: widgetInfo.difficulty),
-                    const SizedBox(width: 12),
-                    Text(
-                      widgetInfo.category.name.toUpperCase(),
-                      style: Theme.of(context).textTheme.labelSmall,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  widgetInfo.description,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
+                _DetailHeader(widgetInfo: widgetInfo),
                 const SizedBox(height: 24),
                 _buildPreviewSection(context),
                 if (widgetInfo.whenToUse != null) ...[
                   const SizedBox(height: 24),
-                  const _SectionTitle('When to use it'),
-                  const SizedBox(height: 8),
-                  Text(
-                    widgetInfo.whenToUse!,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                  _SurfacePanel(
+                    title: 'When to use it',
+                    icon: Icons.lightbulb_outline,
+                    child: Text(
+                      widgetInfo.whenToUse!,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 ],
                 if (widgetInfo.relatedWidgets.isNotEmpty) ...[
                   const SizedBox(height: 24),
-                  const _SectionTitle('Related widgets'),
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      for (final name in widgetInfo.relatedWidgets)
-                        if (WidgetData.getByName(name) != null)
-                          ActionChip(
-                            avatar: const Icon(
-                              Icons.widgets_outlined,
-                              size: 18,
-                            ),
-                            label: Text(name),
-                            onPressed: () => context.goToWidget(name),
-                          ),
-                    ],
+                  _SurfacePanel(
+                    title: 'Related widgets',
+                    icon: Icons.hub_outlined,
+                    child: _RelatedWidgets(names: widgetInfo.relatedWidgets),
                   ),
                 ],
                 if (widgetInfo.tags.isNotEmpty) ...[
@@ -319,25 +277,28 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
                 ],
                 if (widgetInfo.commonPitfalls.isNotEmpty) ...[
                   const SizedBox(height: 24),
-                  const _SectionTitle('Common pitfalls'),
-                  const SizedBox(height: 8),
-                  ...widgetInfo.commonPitfalls.map(
-                    (p) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 2, right: 8),
-                            child: Icon(
-                              Icons.warning_amber_rounded,
-                              size: 18,
-                              color: Colors.orange,
+                  _SurfacePanel(
+                    title: 'Common pitfalls',
+                    icon: Icons.warning_amber_rounded,
+                    child: Column(
+                      children: [
+                        for (final p in widgetInfo.commonPitfalls)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.circle,
+                                  size: 7,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(child: Text(p)),
+                              ],
                             ),
                           ),
-                          Expanded(child: Text(p)),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ],
@@ -367,15 +328,163 @@ class _WidgetDetailScreenState extends State<WidgetDetailScreen> {
   }
 }
 
+class _DetailHeader extends StatelessWidget {
+  const _DetailHeader({required this.widgetInfo});
+
+  final WidgetInfo widgetInfo;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final accent = categoryAccent(context, widgetInfo.category);
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: flutterCardDecoration(context, elevated: true),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(height: 2, color: accent),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CategoryIconBadge(category: widgetInfo.category),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        widgetInfo.name,
+                        style: theme.textTheme.headlineMedium,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                Text(
+                  widgetInfo.description,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: scheme.onSurfaceVariant,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    DifficultyBadge(difficulty: widgetInfo.difficulty),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 9,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: accent.withValues(alpha: 0.09),
+                        borderRadius: BorderRadius.circular(
+                          CatalogTheme.radius,
+                        ),
+                        border: Border.all(
+                          color: accent.withValues(alpha: 0.28),
+                        ),
+                      ),
+                      child: Text(
+                        categoryLabel(widgetInfo.category),
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: accent,
+                        ),
+                      ),
+                    ),
+                    if (widgetInfo.playground != null)
+                      Chip(
+                        avatar: Icon(
+                          Icons.tune,
+                          size: 16,
+                          color: scheme.primary,
+                        ),
+                        label: const Text('Playground'),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SurfacePanel extends StatelessWidget {
+  const _SurfacePanel({
+    required this.title,
+    required this.icon,
+    required this.child,
+  });
+
+  final String title;
+  final IconData icon;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: flutterCardDecoration(context),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 18, color: scheme.primary),
+              const SizedBox(width: 8),
+              Expanded(child: Text(title, style: theme.textTheme.titleMedium)),
+            ],
+          ),
+          const SizedBox(height: 12),
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _RelatedWidgets extends StatelessWidget {
+  const _RelatedWidgets({required this.names});
+
+  final List<String> names;
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final name in names)
+          if (WidgetData.getByName(name) != null)
+            ActionChip(
+              avatar: const Icon(Icons.widgets_outlined, size: 18),
+              label: Text(name),
+              onPressed: () => context.goToWidget(name),
+            ),
+      ],
+    );
+  }
+}
+
 class _SectionTitle extends StatelessWidget {
   const _SectionTitle(this.text);
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
+    return Text(text, style: Theme.of(context).textTheme.titleLarge);
   }
 }

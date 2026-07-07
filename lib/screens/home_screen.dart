@@ -3,26 +3,9 @@ import '../data/widget_data.dart';
 import '../models/widget_info.dart';
 import '../routing/app_router.dart';
 import '../services/catalog_prefs.dart';
+import '../theme/category_visuals.dart';
+import '../theme/catalog_theme.dart';
 import 'catalog_search_delegate.dart';
-
-/// Icon shown for each category on the home screen.
-const Map<WidgetCategory, IconData> _categoryIcons = {
-  WidgetCategory.layout: Icons.dashboard_outlined,
-  WidgetCategory.text: Icons.text_fields,
-  WidgetCategory.input: Icons.edit_outlined,
-  WidgetCategory.assets: Icons.image_outlined,
-  WidgetCategory.material: Icons.android,
-  WidgetCategory.cupertino: Icons.apple,
-  WidgetCategory.interaction: Icons.touch_app_outlined,
-  WidgetCategory.styling: Icons.palette_outlined,
-  WidgetCategory.scrolling: Icons.swap_vert,
-  WidgetCategory.async: Icons.sync,
-  WidgetCategory.animation: Icons.animation,
-  WidgetCategory.painting: Icons.brush_outlined,
-  WidgetCategory.effects: Icons.auto_awesome,
-  WidgetCategory.accessibility: Icons.accessibility_new,
-  WidgetCategory.utility: Icons.build_outlined,
-};
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -42,7 +25,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Widget Catalog'),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
@@ -57,47 +39,36 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1200),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final wide = constraints.maxWidth >= 720;
-              return ListView(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                    child: Text(
-                      '${WidgetData.allWidgets.length} widgets across '
-                      '${WidgetCategory.values.length} categories',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ),
-                  if (favorites.isNotEmpty)
-                    _WidgetStrip(title: 'Favorites', widgets: favorites),
-                  if (recents.isNotEmpty)
-                    _WidgetStrip(title: 'Recently viewed', widgets: recents),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
-                    child: Text(
-                      'Categories',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  if (wide)
-                    _CategoryGrid(
-                      crossAxisCount: constraints.maxWidth >= 1080 ? 4 : 3,
-                    )
-                  else
-                    ..._categoryTiles(context),
-                ],
-              );
-            },
-          ),
+      body: FlutterPageFrame(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final wide = constraints.maxWidth >= 720;
+            return ListView(
+              padding: const EdgeInsets.fromLTRB(16, 18, 16, 40),
+              children: [
+                _HomeHeader(
+                  widgetCount: WidgetData.allWidgets.length,
+                  categoryCount: WidgetCategory.values.length,
+                  favoriteCount: favorites.length,
+                  recentCount: recents.length,
+                ),
+                if (favorites.isNotEmpty)
+                  _WidgetStrip(title: 'Favorites', widgets: favorites),
+                if (recents.isNotEmpty)
+                  _WidgetStrip(title: 'Recently viewed', widgets: recents),
+                const _SectionHeading(
+                  title: 'Categories',
+                  subtitle: 'Browse by the kind of interface you are building.',
+                ),
+                if (wide)
+                  _CategoryGrid(
+                    crossAxisCount: constraints.maxWidth >= 1080 ? 4 : 3,
+                  )
+                else
+                  ..._categoryTiles(context),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -113,12 +84,12 @@ class HomeScreen extends StatelessWidget {
     return [
       for (final category in WidgetCategory.values)
         ListTile(
-          leading: Icon(_categoryIcons[category]),
-          title: Text(category.name.toUpperCase()),
+          leading: CategoryIconBadge(category: category),
+          title: Text(categoryLabel(category)),
           subtitle: Text(
             '${WidgetData.getWidgetsByCategory(category).length} widgets',
           ),
-          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          trailing: const Icon(Icons.arrow_forward, size: 17),
           onTap: () => _openCategory(context, category),
         ),
     ];
@@ -133,6 +104,166 @@ void _openWidget(BuildContext context, WidgetInfo info) {
   context.goToWidget(info.name);
 }
 
+class _HomeHeader extends StatelessWidget {
+  const _HomeHeader({
+    required this.widgetCount,
+    required this.categoryCount,
+    required this.favoriteCount,
+    required this.recentCount,
+  });
+
+  final int widgetCount;
+  final int categoryCount;
+  final int favoriteCount;
+  final int recentCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      padding: const EdgeInsets.all(24),
+      decoration: flutterCardDecoration(context, elevated: true),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final wide = constraints.maxWidth >= 720;
+          final copy = Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Build with sharper Flutter intuition',
+                style: theme.textTheme.headlineMedium?.copyWith(fontSize: 34),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'A practical library of live widget examples and teaching notes',
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          );
+          final stats = Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _StatPill(
+                icon: Icons.widgets_outlined,
+                label: '$widgetCount widgets',
+              ),
+              _StatPill(
+                icon: Icons.category_outlined,
+                label: '$categoryCount categories',
+              ),
+              _StatPill(
+                icon: Icons.favorite_border,
+                label: '$favoriteCount saved',
+              ),
+              _StatPill(icon: Icons.history, label: '$recentCount recent'),
+            ],
+          );
+          final search = FilledButton.icon(
+            icon: const Icon(Icons.manage_search),
+            label: const Text('Search catalog'),
+            onPressed: () =>
+                showSearch(context: context, delegate: CatalogSearchDelegate()),
+          );
+
+          if (wide) {
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(child: copy),
+                const SizedBox(width: 24),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 360),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [stats, const SizedBox(height: 16), search],
+                  ),
+                ),
+              ],
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              copy,
+              const SizedBox(height: 16),
+              stats,
+              const SizedBox(height: 16),
+              search,
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _StatPill extends StatelessWidget {
+  const _StatPill({required this.icon, required this.label});
+
+  final IconData icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: scheme.outlineVariant.withValues(alpha: 0.65),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 16, color: scheme.primary),
+          const SizedBox(width: 6),
+          Text(label, style: Theme.of(context).textTheme.labelMedium),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionHeading extends StatelessWidget {
+  const _SectionHeading({required this.title, this.subtitle});
+
+  final String title;
+  final String? subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 22, 0, 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: theme.textTheme.titleLarge),
+          if (subtitle != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              subtitle!,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 /// A horizontally-scrolling strip of widget cards (favorites / recents).
 class _WidgetStrip extends StatelessWidget {
   const _WidgetStrip({required this.title, required this.widgets});
@@ -145,49 +276,54 @@ class _WidgetStrip extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-        ),
+        _SectionHeading(title: title),
         SizedBox(
-          height: 110,
+          height: 132,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.zero,
             itemCount: widgets.length,
-            separatorBuilder: (_, _) => const SizedBox(width: 8),
+            separatorBuilder: (_, _) => const SizedBox(width: 10),
             itemBuilder: (context, index) {
               final w = widgets[index];
               return SizedBox(
-                width: 180,
+                width: 220,
                 child: Card(
+                  clipBehavior: Clip.antiAlias,
+                  elevation: 0,
                   child: InkWell(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(CatalogTheme.radius),
                     onTap: () => _openWidget(context, w),
                     child: Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            w.name,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          Row(
+                            children: [
+                              CategoryIconBadge(category: w.category),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  w.name,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 4),
-                          Flexible(
-                            child: Text(
-                              w.description,
-                              style: Theme.of(context).textTheme.bodySmall,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                          Text(
+                            w.description,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
@@ -215,37 +351,68 @@ class _CategoryGrid extends StatelessWidget {
       crossAxisCount: crossAxisCount,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.zero,
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,
-      childAspectRatio: 2.4,
+      childAspectRatio: 2.35,
       children: [
         for (final category in WidgetCategory.values)
-          Card(
-            child: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: () => _openCategory(context, category),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
+          Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: flutterCardDecoration(context),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(CatalogTheme.radius),
+                onTap: () => _openCategory(context, category),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Icon(_categoryIcons[category], size: 28),
-                    const SizedBox(width: 12),
+                    Container(
+                      height: 2,
+                      color: categoryAccent(context, category),
+                    ),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            category.name.toUpperCase(),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            '${WidgetData.getWidgetsByCategory(category).length} widgets',
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            CategoryIconBadge(category: category),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    categoryLabel(category),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleMedium,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    '${WidgetData.getWidgetsByCategory(category).length} widgets',
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                              size: 18,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

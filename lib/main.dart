@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'routing/app_router.dart';
 import 'services/catalog_prefs.dart';
+import 'theme/catalog_theme.dart';
 
 /// Enables drag-to-scroll with a mouse and trackpad, not just touch. Flutter
 /// disables mouse dragging by default on web/desktop, which makes drag-driven
@@ -49,17 +50,8 @@ class _MyAppState extends State<MyApp> {
         builder: (context, _) {
           return MaterialApp.router(
             title: 'Flutter Widget Catalog',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-              useMaterial3: true,
-            ),
-            darkTheme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.deepPurple,
-                brightness: Brightness.dark,
-              ),
-              useMaterial3: true,
-            ),
+            theme: CatalogTheme.light(),
+            darkTheme: CatalogTheme.dark(),
             themeMode: widget.prefs.themeMode,
             scrollBehavior: _AppScrollBehavior(),
             routerConfig: _router,

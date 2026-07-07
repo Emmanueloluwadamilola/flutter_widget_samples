@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/knobs.dart';
+import '../theme/catalog_theme.dart';
 
 /// Renders a widget's interactive playground: a live preview on top and a set
 /// of editable controls below. Tweaking any control rebuilds the preview.
@@ -23,18 +24,34 @@ class _PlaygroundViewState extends State<PlaygroundView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           constraints: const BoxConstraints(minHeight: 160),
-          decoration: BoxDecoration(
-            border: Border.all(color: Theme.of(context).dividerColor),
-            borderRadius: BorderRadius.circular(8),
-          ),
+          decoration: flutterCardDecoration(context, elevated: true),
           child: Center(
-            child: widget.playground.builder(context, Knobs(_values)),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 160),
+              child: Center(
+                key: ValueKey(_values.toString()),
+                child: widget.playground.builder(context, Knobs(_values)),
+              ),
+            ),
           ),
         ),
-        const SizedBox(height: 8),
-        for (final knob in widget.playground.knobs) _control(context, knob),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: flutterCardDecoration(
+            context,
+            color: Theme.of(context).colorScheme.surfaceContainerLow,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (final knob in widget.playground.knobs)
+                _control(context, knob),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -78,7 +95,13 @@ class _PlaygroundViewState extends State<PlaygroundView> {
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Row(
             children: [
-              Text(knob.label),
+              SizedBox(
+                width: 96,
+                child: Text(
+                  knob.label,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Wrap(
@@ -88,18 +111,28 @@ class _PlaygroundViewState extends State<PlaygroundView> {
                     for (final color in knob.options)
                       GestureDetector(
                         onTap: () => _set(knob.id, color),
-                        child: Container(
-                          width: 28,
-                          height: 28,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 120),
+                          width: 30,
+                          height: 30,
                           decoration: BoxDecoration(
                             color: color,
                             shape: BoxShape.circle,
                             border: Border.all(
                               color: color == selected
-                                  ? Theme.of(context).colorScheme.onSurface
+                                  ? Theme.of(context).colorScheme.primary
                                   : Colors.transparent,
                               width: 3,
                             ),
+                            boxShadow: color == selected
+                                ? [
+                                    BoxShadow(
+                                      color: color.withValues(alpha: 0.22),
+                                      blurRadius: 10,
+                                      spreadRadius: 1,
+                                    ),
+                                  ]
+                                : null,
                           ),
                         ),
                       ),
@@ -123,6 +156,7 @@ class _PlaygroundViewState extends State<PlaygroundView> {
               const SizedBox(height: 6),
               Wrap(
                 spacing: 8,
+                runSpacing: 8,
                 children: [
                   for (var i = 0; i < options.length; i++)
                     ChoiceChip(

@@ -9,22 +9,23 @@ class DifficultyBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (label, color) = switch (difficulty) {
-      WidgetDifficulty.beginner => ('Beginner', Colors.green),
-      WidgetDifficulty.intermediate => ('Intermediate', Colors.orange),
-      WidgetDifficulty.advanced => ('Advanced', Colors.red),
+    final label = switch (difficulty) {
+      WidgetDifficulty.beginner => 'Beginner',
+      WidgetDifficulty.intermediate => 'Intermediate',
+      WidgetDifficulty.advanced => 'Advanced',
     };
+    final color = Theme.of(context).colorScheme.primary;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withValues(alpha: 0.5)),
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withValues(alpha: 0.28)),
       ),
       child: Text(
         label,
         style: TextStyle(
-          color: color.shade800,
+          color: color,
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
